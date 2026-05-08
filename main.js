@@ -101,7 +101,17 @@ function cardOpacity(localTravel) {
 function updateStory() {
   const mobile = window.matchMedia("(max-width: 860px)").matches;
   const viewportHeight = getStableViewportHeight(mobile);
-  const introScrollLength = viewportHeight * (mobile ? 3.2 : 2.4);
+  const rect = story.getBoundingClientRect();
+  const scrollable = Math.max(1, story.offsetHeight - viewportHeight);
+  const cardsEnd = mobile ? 0.78 : 0.74;
+  const archStart = mobile ? 0.82 : 0.78;
+  const passStart = mobile ? 0.89 : 0.85;
+  const finalStart = mobile ? 0.94 : 0.91;
+  const cardGap = mobile ? 3.25 : 2.8;
+  const frameOffset = 0.82;
+  const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
+  const oneCardScrollLength = (cardsEnd * scrollable * cardGap) / cardTravelLength;
+  const introScrollLength = oneCardScrollLength;
   introTargetProgress = clamp(window.scrollY / introScrollLength, 0, 1);
   introRenderProgress += (introTargetProgress - introRenderProgress) * (mobile ? 0.12 : 1);
   const introProgress = mobile ? introRenderProgress : introTargetProgress;
@@ -112,17 +122,9 @@ function updateStory() {
   introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
 
-  const rect = story.getBoundingClientRect();
-  const scrollable = Math.max(1, story.offsetHeight - window.innerHeight);
   storyProgress = clamp(-rect.top / scrollable, 0, 1);
-  const cardsEnd = mobile ? 0.78 : 0.74;
-  const archStart = mobile ? 0.82 : 0.78;
-  const passStart = mobile ? 0.89 : 0.85;
-  const finalStart = mobile ? 0.94 : 0.91;
   const cardProgress = clamp(storyProgress / cardsEnd, 0, 1);
-  const cardGap = mobile ? 3.25 : 2.8;
-  const frameOffset = 0.82;
-  const rawTravel = cardProgress * ((cards.length - 1) * cardGap + frameOffset + 1.05);
+  const rawTravel = cardProgress * cardTravelLength;
   const travel = rawTravel;
   stepPosition = travel;
   const frameDepth = mobile ? 780 : 1050;
