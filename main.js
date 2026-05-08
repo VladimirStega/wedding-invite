@@ -134,7 +134,7 @@ function updateStory() {
     const fullFocus = clamp(1 - Math.abs(z) / 430, 0, 1);
     const isActive = index === activeCardIndex && activeCardDistance < 1.08;
     const opacity = isActive ? cardOpacity(localTravel) * (storyProgress < archStart && cardsVisible ? 1 : 0) : 0;
-    const horizontal = mobile ? 0 : side * (focus > 0 ? 1.5 : 5);
+    const horizontal = 0;
     const vertical = mobile ? 0 : 0;
     const scale = 1;
 
