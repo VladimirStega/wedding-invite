@@ -79,7 +79,8 @@ function cardOpacity(localTravel) {
 }
 
 function updateStory() {
-  const introScrollLength = window.innerHeight * 2.4;
+  const mobile = window.matchMedia("(max-width: 860px)").matches;
+  const introScrollLength = window.innerHeight * (mobile ? 3.0 : 2.4);
   const introProgress = clamp(window.scrollY / introScrollLength, 0, 1);
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.82));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.18, 0.82));
@@ -91,17 +92,17 @@ function updateStory() {
   const rect = story.getBoundingClientRect();
   const scrollable = Math.max(1, story.offsetHeight - window.innerHeight);
   storyProgress = clamp(-rect.top / scrollable, 0, 1);
-  const cardsEnd = 0.74;
-  const archStart = 0.78;
-  const passStart = 0.86;
-  const finalStart = 0.94;
+  const cardsEnd = mobile ? 0.78 : 0.74;
+  const archStart = mobile ? 0.82 : 0.78;
+  const passStart = mobile ? 0.9 : 0.86;
+  const finalStart = mobile ? 0.97 : 0.94;
   const cardProgress = clamp(storyProgress / cardsEnd, 0, 1);
-  const cardGap = 2.8;
+  const cardGap = mobile ? 3.25 : 2.8;
   const frameOffset = 0.82;
   const rawTravel = cardProgress * ((cards.length - 1) * cardGap + frameOffset + 1.05);
   const travel = rawTravel;
   stepPosition = travel;
-  const frameDepth = 1050;
+  const frameDepth = mobile ? 780 : 1050;
   archProgress = clamp((storyProgress - archStart) / (1 - archStart), 0, 1);
   passProgress = clamp((storyProgress - passStart) / (finalStart - passStart), 0, 1);
   finaleProgress = clamp((storyProgress - finalStart) / (1 - finalStart), 0, 1);
@@ -110,9 +111,8 @@ function updateStory() {
   story.style.setProperty("--bg-lift", "0vh");
   story.style.setProperty("--bg-tilt", "0deg");
   story.style.setProperty("--bg-pitch", "0deg");
-  story.style.setProperty("--bg-scale", (1.02 + storyProgress * 0.08).toFixed(3));
+  story.style.setProperty("--bg-scale", (1.02 + storyProgress * (mobile ? 0.045 : 0.08)).toFixed(3));
   canvas.style.setProperty("--scene-opacity", smoothStep(archProgress).toFixed(3));
-  const mobile = window.matchMedia("(max-width: 860px)").matches;
   const cardsVisible = introProgress > 0.96;
   let activeCardIndex = -1;
   let activeCardDistance = Infinity;
@@ -129,9 +129,9 @@ function updateStory() {
   cards.forEach((card, index) => {
     const side = card.classList.contains("story-card--right") ? 1 : -1;
     const localTravel = travel - index * cardGap - frameOffset;
-    const z = slowNearCenter(localTravel) * frameDepth;
-    const focus = clamp(1 - Math.abs(z) / 820, 0, 1);
-    const fullFocus = clamp(1 - Math.abs(z) / 430, 0, 1);
+    const z = slowNearCenter(localTravel, mobile ? 0.56 : 0.42, mobile ? 0.46 : 0.34) * frameDepth;
+    const focus = clamp(1 - Math.abs(z) / (mobile ? 700 : 820), 0, 1);
+    const fullFocus = clamp(1 - Math.abs(z) / (mobile ? 390 : 430), 0, 1);
     const isActive = index === activeCardIndex && activeCardDistance < 1.08;
     const opacity = isActive ? cardOpacity(localTravel) * (storyProgress < archStart && cardsVisible ? 1 : 0) : 0;
     const horizontal = 0;

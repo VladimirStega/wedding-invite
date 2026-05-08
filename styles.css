@@ -447,6 +447,10 @@ h1 span {
 }
 
 @media (max-width: 860px) {
+  .story-scroll {
+    height: 3200vh;
+  }
+
   .countdown {
     left: 50%;
     width: calc(100vw - 30px);
