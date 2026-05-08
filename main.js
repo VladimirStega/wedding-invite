@@ -19,6 +19,8 @@ let archProgress = 0;
 let passProgress = 0;
 let stableViewportHeight = window.innerHeight;
 let stableViewportWidth = window.innerWidth;
+let introTargetProgress = 0;
+let introRenderProgress = 0;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -99,9 +101,11 @@ function updateStory() {
   const mobile = window.matchMedia("(max-width: 860px)").matches;
   const viewportHeight = getStableViewportHeight(mobile);
   const introScrollLength = viewportHeight * (mobile ? 3.2 : 2.4);
-  const introProgress = clamp(window.scrollY / introScrollLength, 0, 1);
-  const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.82));
-  const introDepth = smoothStep(rangeProgress(introProgress, 0.18, 0.82));
+  introTargetProgress = clamp(window.scrollY / introScrollLength, 0, 1);
+  introRenderProgress += (introTargetProgress - introRenderProgress) * (mobile ? 0.12 : 1);
+  const introProgress = mobile ? introRenderProgress : introTargetProgress;
+  const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
+  const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");
   introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
@@ -298,6 +302,7 @@ function initScene() {
   const animate = () => {
     const elapsed = clock.getElapsedTime();
     const mobile = window.matchMedia("(max-width: 860px)").matches;
+    updateStory();
 
     const revealEase = smoothStep(archProgress);
     const passEase = smoothStep(passProgress);
