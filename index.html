@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Евгений & Екатерина | Сказка о любви</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="invite">
+      <section class="intro" aria-labelledby="hero-title">
+        <div class="intro__text">
+          <p class="eyebrow">СКАЗКА О ЛЮБВИ</p>
+          <h1 id="hero-title">ЕВГЕНИЙ <span>&amp;</span> ЕКАТЕРИНА</h1>
+          <p class="date-line">15 АВГУСТА | СУББОТА | 15:30</p>
+        </div>
+
+        <aside class="countdown" aria-label="Обратный отсчет до свадьбы">
+          <div class="countdown__grid" id="countdown">
+            <div><strong>00</strong><span>недель</span></div>
+            <div><strong>00</strong><span>дней</span></div>
+            <div><strong>00</strong><span>часов</span></div>
+            <div><strong>00</strong><span>минут</span></div>
+            <div><strong>00</strong><span>секунд</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="story-scroll" id="story">
+        <div class="sticky-scene">
+          <div class="background-lines" aria-hidden="true"></div>
+
+          <canvas id="threeScene" class="three-scene" aria-label="3D-сцена с матрешками у свадебной арки"></canvas>
+          <p class="webgl-note" id="webglNote">3D-сцена загружается</p>
+
+          <article class="story-card story-card--left" data-step="0">
+            <p class="card-kicker">01</p>
+            <h2>ДОРОГОЙ ГОСТЬ!</h2>
+            <p>
+              Мы рады сообщить Вам, что состоится самое главное торжество в нашей жизни - день рождения нашей семьи!
+              Будем пить и плясать да горя не знать!
+            </p>
+          </article>
+
+          <article class="story-card story-card--right story-card--wide" data-step="1">
+            <p class="card-kicker">02</p>
+            <h2>СВАДЕБНЫЙ РАЗГУЛЯЙ</h2>
+            <ol class="schedule">
+              <li>
+                <time>15:30</time>
+                <div>
+                  <h3>МИЛОСТИ ПРОСИМ</h3>
+                  <p>Сбор гостей и приветственный фуршет</p>
+                </div>
+              </li>
+              <li>
+                <time>16:00</time>
+                <div>
+                  <h3>ГУЛЯНЬЯ И ПИР</h3>
+                  <p>Торжественная часть и начало банкета</p>
+                </div>
+              </li>
+              <li>
+                <time>22:00</time>
+                <div>
+                  <h3>ПОСИДЕЛКИ У КОСТРА</h3>
+                  <p>Завершение вечера в теплой компании</p>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article class="story-card story-card--left quote-card" data-step="2">
+            <p>«Там, где посеяна любовь, растёт радость».</p>
+          </article>
+
+          <article class="story-card story-card--right" data-step="3">
+            <p class="card-kicker">03</p>
+            <h2>ПОЖЕЛАНИЯ ПО ДАРАМ</h2>
+            <p>Свои тёплые слова и пожелания приносите в сердцах, а подарки в конвертах.</p>
+          </article>
+
+          <article class="story-card story-card--left" data-step="4">
+            <p class="card-kicker">04</p>
+            <h2>ОДЕЯНИЯ</h2>
+            <p>Будем рады, если вы поддержите русский народный стиль в одежде.</p>
+            <div class="palette" aria-label="Цвета дресс-кода">
+              <i style="--swatch: #c51624"></i>
+              <i style="--swatch: #b65334"></i>
+              <i style="--swatch: #c49a3a"></i>
+              <i style="--swatch: #687344"></i>
+              <i style="--swatch: #d8c19b"></i>
+            </div>
+          </article>
+
+          <article class="story-card story-card--right story-card--wide" data-step="5">
+            <p class="card-kicker">05</p>
+            <h2>ПУТЬ-ДОРОГА</h2>
+            <p>Если у вас нет возможности добраться на личной карете, то напишите нам - будем рады помочь!</p>
+            <div class="map-placeholder">
+              <strong>Здесь будет карта Яндекса</strong>
+              <span>место для iframe или виджета с адресом</span>
+            </div>
+          </article>
+
+          <article class="story-card story-card--left" data-step="6">
+            <p class="card-kicker">06</p>
+            <h2>ОПОЧИВАЛЬНЯ</h2>
+            <p>Если не планируете оставаться ночевать в доме, то дайте нам об этом знать.</p>
+          </article>
+
+          <div class="portal-finale" id="portalFinale">
+            <a class="confirm-button" href="mailto:example@example.com?subject=Подтверждение участия">ПОДТВЕРДИТЬ УЧАСТИЕ</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./asset-urls.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>

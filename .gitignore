@@ -1,0 +1,5 @@
+backup-*/
+*.rollback-*.js
+*.rollback-*.css
+debug-*.png
+server.*.log
