@@ -310,21 +310,21 @@ function initScene() {
     const revealEase = smoothStep(archProgress);
     const passEase = smoothStep(passProgress);
     const finalEase = smoothStep(finaleProgress);
-    const sceneScale = (mobile ? 0.54 : 0.66) + revealEase * (mobile ? 0.08 : 0.12) + passEase * (mobile ? 0.14 : 0.28);
+    const sceneScale = (mobile ? 0.44 : 0.66) + revealEase * (mobile ? 0.055 : 0.12) + passEase * (mobile ? 0.08 : 0.28);
     const meadowLift = (1 - revealEase) * -0.1 + passEase * 0.08;
-    const gateSpread = passEase * (mobile ? 0.36 : 0.92);
+    const gateSpread = passEase * (mobile ? 0.12 : 0.92);
 
     root.rotation.y = 0;
     root.rotation.x = 0;
     root.position.x = 0;
-    root.position.y = (mobile ? -0.46 : -0.2) + (1 - revealEase) * 0.12 - passEase * 0.08 + finalEase * 0.03;
+    root.position.y = (mobile ? -0.34 : -0.2) + (1 - revealEase) * 0.08 - passEase * (mobile ? 0.02 : 0.08) + finalEase * 0.03;
     root.scale.setScalar(sceneScale);
 
     arch.rotation.y = 0;
     bride.rotation.y = 0.08;
     groom.rotation.y = -0.08;
-    bride.position.x = (mobile ? -0.34 : -0.42) - gateSpread;
-    groom.position.x = (mobile ? 0.58 : 0.78) + gateSpread;
+    bride.position.x = (mobile ? -0.18 : -0.42) - gateSpread;
+    groom.position.x = (mobile ? 0.38 : 0.78) + gateSpread;
     bride.position.z = 0.1 + passEase * 0.2;
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
@@ -333,7 +333,7 @@ function initScene() {
 
     camera.position.x = 0;
     camera.position.y = (mobile ? 0.48 : 0.7) + passEase * 0.12;
-    camera.position.z = (mobile ? 10.8 : 10.9) - passEase * (mobile ? 3.25 : 3.75);
+    camera.position.z = (mobile ? 11.25 : 10.9) - passEase * (mobile ? 2.65 : 3.75);
     lookTarget.set(0.12, mobile ? -0.25 + passEase * 0.08 : -0.18 + passEase * 0.14, -0.2);
     camera.lookAt(lookTarget);
 
