@@ -17,6 +17,8 @@ let stepPosition = 0;
 let finaleProgress = 0;
 let archProgress = 0;
 let passProgress = 0;
+let stableViewportHeight = window.innerHeight;
+let stableViewportWidth = window.innerWidth;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -54,6 +56,21 @@ function rangeProgress(value, start, end) {
   return clamp((value - start) / Math.max(0.001, end - start), 0, 1);
 }
 
+function getStableViewportHeight(mobile) {
+  if (!mobile) {
+    stableViewportHeight = window.innerHeight;
+    stableViewportWidth = window.innerWidth;
+    return stableViewportHeight;
+  }
+
+  if (Math.abs(window.innerWidth - stableViewportWidth) > 24) {
+    stableViewportHeight = window.innerHeight;
+    stableViewportWidth = window.innerWidth;
+  }
+
+  return stableViewportHeight;
+}
+
 function holdFrameProgress(value, hold = 0.34) {
   const frame = Math.floor(value);
   const local = value - frame;
@@ -80,13 +97,14 @@ function cardOpacity(localTravel) {
 
 function updateStory() {
   const mobile = window.matchMedia("(max-width: 860px)").matches;
-  const introScrollLength = window.innerHeight * (mobile ? 3.0 : 2.4);
+  const viewportHeight = getStableViewportHeight(mobile);
+  const introScrollLength = viewportHeight * (mobile ? 3.2 : 2.4);
   const introProgress = clamp(window.scrollY / introScrollLength, 0, 1);
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.82));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.18, 0.82));
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");
-  introText.style.setProperty("--intro-scale", (1 + introDepth * 2.15).toFixed(3));
+  introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
 
   const rect = story.getBoundingClientRect();
@@ -94,8 +112,8 @@ function updateStory() {
   storyProgress = clamp(-rect.top / scrollable, 0, 1);
   const cardsEnd = mobile ? 0.78 : 0.74;
   const archStart = mobile ? 0.82 : 0.78;
-  const passStart = mobile ? 0.9 : 0.86;
-  const finalStart = mobile ? 0.97 : 0.94;
+  const passStart = mobile ? 0.89 : 0.85;
+  const finalStart = mobile ? 0.94 : 0.91;
   const cardProgress = clamp(storyProgress / cardsEnd, 0, 1);
   const cardGap = mobile ? 3.25 : 2.8;
   const frameOffset = 0.82;
@@ -284,9 +302,9 @@ function initScene() {
     const revealEase = smoothStep(archProgress);
     const passEase = smoothStep(passProgress);
     const finalEase = smoothStep(finaleProgress);
-    const sceneScale = (mobile ? 0.56 : 0.66) + revealEase * (mobile ? 0.1 : 0.12) + passEase * (mobile ? 0.22 : 0.28);
+    const sceneScale = (mobile ? 0.54 : 0.66) + revealEase * (mobile ? 0.08 : 0.12) + passEase * (mobile ? 0.14 : 0.28);
     const meadowLift = (1 - revealEase) * -0.1 + passEase * 0.08;
-    const gateSpread = passEase * (mobile ? 0.72 : 0.92);
+    const gateSpread = passEase * (mobile ? 0.36 : 0.92);
 
     root.rotation.y = 0;
     root.rotation.x = 0;
@@ -297,8 +315,8 @@ function initScene() {
     arch.rotation.y = 0;
     bride.rotation.y = 0.08;
     groom.rotation.y = -0.08;
-    bride.position.x = -0.42 - gateSpread;
-    groom.position.x = 0.78 + gateSpread;
+    bride.position.x = (mobile ? -0.34 : -0.42) - gateSpread;
+    groom.position.x = (mobile ? 0.58 : 0.78) + gateSpread;
     bride.position.z = 0.1 + passEase * 0.2;
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
@@ -307,7 +325,7 @@ function initScene() {
 
     camera.position.x = 0;
     camera.position.y = (mobile ? 0.48 : 0.7) + passEase * 0.12;
-    camera.position.z = (mobile ? 10.7 : 10.9) - passEase * (mobile ? 3.9 : 3.75);
+    camera.position.z = (mobile ? 10.8 : 10.9) - passEase * (mobile ? 3.25 : 3.75);
     lookTarget.set(0.12, mobile ? -0.25 + passEase * 0.08 : -0.18 + passEase * 0.14, -0.2);
     camera.lookAt(lookTarget);
 
