@@ -21,6 +21,7 @@ let stableViewportHeight = window.innerHeight;
 let stableViewportWidth = window.innerWidth;
 let introTargetProgress = 0;
 let introRenderProgress = 0;
+let sceneRunning = false;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -350,6 +351,7 @@ function initScene() {
   window.addEventListener("resize", resize);
   resize();
   webglNote.hidden = true;
+  sceneRunning = true;
   animate();
 }
 
@@ -364,7 +366,9 @@ function startPage() {
   updateCountdown();
   updateStory();
   setInterval(updateCountdown, 1000);
-  window.addEventListener("scroll", updateStory, { passive: true });
+  if (!sceneRunning) {
+    window.addEventListener("scroll", updateStory, { passive: true });
+  }
   window.addEventListener("resize", updateStory);
 }
 

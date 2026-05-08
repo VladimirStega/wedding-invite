@@ -67,6 +67,9 @@ body {
     translate3d(0, var(--intro-y, 0), 0)
     scale(var(--intro-scale, 1));
   transition: opacity 120ms linear, transform 120ms linear;
+  backface-visibility: hidden;
+  transform-origin: center center;
+  will-change: opacity, transform;
 }
 
 @keyframes introTextAppear {
