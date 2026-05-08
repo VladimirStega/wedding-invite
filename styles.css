@@ -264,12 +264,12 @@ h1 span {
 }
 
 .story-card--left {
-  left: clamp(18px, 17vw, 260px);
+  left: clamp(18px, 25vw, 430px);
   --hidden-x: -72vw;
 }
 
 .story-card--right {
-  right: clamp(18px, 17vw, 260px);
+  right: clamp(18px, 25vw, 430px);
   --hidden-x: 72vw;
 }
 
