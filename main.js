@@ -63,6 +63,11 @@ function smoothStep(value) {
   return next * next * (3 - 2 * next);
 }
 
+function snapEase(value) {
+  const next = clamp(value, 0, 1);
+  return 1 - Math.pow(1 - next, 2.2);
+}
+
 function rangeProgress(value, start, end) {
   return clamp((value - start) / Math.max(0.001, end - start), 0, 1);
 }
@@ -175,7 +180,7 @@ function snapToIndex(index) {
 
   const animateSnap = (now) => {
     const progress = clamp((now - startedAt) / duration, 0, 1);
-    const eased = smoothStep(progress);
+    const eased = snapEase(progress);
     window.scrollTo(0, startTop + distance * eased);
 
     if (progress < 1) {
