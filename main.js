@@ -161,7 +161,7 @@ function snapToIndex(index) {
   const top = points[targetIndex];
   const startTop = window.scrollY;
   const distance = top - startTop;
-  const duration = 2200;
+  const duration = 4400;
   const startedAt = performance.now();
 
   if (Math.abs(distance) < 2) {
