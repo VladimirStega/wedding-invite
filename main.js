@@ -25,6 +25,7 @@ let sceneRunning = false;
 let mobileSnapReady = false;
 let snapInProgress = false;
 let snapTimer = 0;
+let snapAnimation = 0;
 let touchStartY = 0;
 let touchCurrentY = 0;
 let touchStartScroll = 0;
@@ -115,7 +116,6 @@ function getSnapPoints() {
   const scrollable = Math.max(1, story.offsetHeight - viewportHeight);
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const cardsEnd = mobile ? 0.78 : 0.74;
-  const archStart = mobile ? 0.82 : 0.78;
   const finalStart = mobile ? 0.94 : 0.91;
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
@@ -129,7 +129,6 @@ function getSnapPoints() {
     points.push(storyTop + cardsEnd * scrollable * cardProgress);
   });
 
-  points.push(storyTop + archStart * scrollable);
   points.push(storyTop + finalStart * scrollable);
 
   return [...new Set(points
@@ -160,12 +159,33 @@ function snapToIndex(index) {
   const points = getSnapPoints();
   const targetIndex = clamp(index, 0, points.length - 1);
   const top = points[targetIndex];
+  const startTop = window.scrollY;
+  const distance = top - startTop;
+  const duration = 1100;
+  const startedAt = performance.now();
+
+  if (Math.abs(distance) < 2) {
+    return;
+  }
+
   snapInProgress = true;
-  window.scrollTo({ top, behavior: "smooth" });
+  window.cancelAnimationFrame(snapAnimation);
   window.clearTimeout(snapTimer);
-  snapTimer = window.setTimeout(() => {
+
+  const animateSnap = (now) => {
+    const progress = clamp((now - startedAt) / duration, 0, 1);
+    const eased = smoothStep(progress);
+    window.scrollTo(0, startTop + distance * eased);
+
+    if (progress < 1) {
+      snapAnimation = window.requestAnimationFrame(animateSnap);
+      return;
+    }
+
     snapInProgress = false;
-  }, 720);
+  };
+
+  snapAnimation = window.requestAnimationFrame(animateSnap);
 }
 
 function snapByDirection(direction, fromScroll = window.scrollY) {
