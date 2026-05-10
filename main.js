@@ -26,6 +26,8 @@ let mobileSnapReady = false;
 let snapInProgress = false;
 let snapTimer = 0;
 let snapAnimation = 0;
+let mobileVirtualScroll = 0;
+let mobileVirtualReady = false;
 let touchStartY = 0;
 let touchCurrentY = 0;
 let touchStartScroll = 0;
@@ -164,7 +166,7 @@ function snapToIndex(index) {
   const points = getSnapPoints();
   const targetIndex = clamp(index, 0, points.length - 1);
   const top = points[targetIndex];
-  const startTop = window.scrollY;
+  const startTop = mobileVirtualScroll;
   const distance = top - startTop;
   const duration = 2500;
   const startedAt = performance.now();
@@ -180,20 +182,23 @@ function snapToIndex(index) {
   const animateSnap = (now) => {
     const progress = clamp((now - startedAt) / duration, 0, 1);
     const eased = snapEase(progress);
-    window.scrollTo(0, startTop + distance * eased);
+    mobileVirtualScroll = startTop + distance * eased;
+    updateStory();
 
     if (progress < 1) {
       snapAnimation = window.requestAnimationFrame(animateSnap);
       return;
     }
 
+    mobileVirtualScroll = top;
+    updateStory();
     snapInProgress = false;
   };
 
   snapAnimation = window.requestAnimationFrame(animateSnap);
 }
 
-function snapByDirection(direction, fromScroll = window.scrollY) {
+function snapByDirection(direction, fromScroll = mobileVirtualScroll) {
   const points = getSnapPoints();
   const nearestIndex = getNearestSnapIndex(points, fromScroll);
   const targetIndex = direction > 0 ? nearestIndex + 1 : nearestIndex - 1;
@@ -206,7 +211,7 @@ function settleToNearestSnap() {
   }
 
   const points = getSnapPoints();
-  snapToIndex(getNearestSnapIndex(points));
+  snapToIndex(getNearestSnapIndex(points, mobileVirtualScroll));
 }
 
 function scheduleSnapSettle() {
@@ -257,7 +262,7 @@ function initMobileSnap() {
     touchActive = true;
     touchStartY = event.touches[0].clientY;
     touchCurrentY = touchStartY;
-    touchStartScroll = window.scrollY;
+    touchStartScroll = mobileVirtualScroll;
   }, { passive: true });
 
   window.addEventListener("touchmove", (event) => {
@@ -282,7 +287,7 @@ function initMobileSnap() {
 
     const endY = event.changedTouches[0]?.clientY ?? touchStartY;
     const touchDelta = touchStartY - endY;
-    const scrollDelta = window.scrollY - touchStartScroll;
+    const scrollDelta = mobileVirtualScroll - touchStartScroll;
     const directionSource = Math.abs(touchDelta) > Math.abs(scrollDelta) ? touchDelta : scrollDelta;
     touchActive = false;
 
@@ -297,7 +302,6 @@ function initMobileSnap() {
 function updateStory() {
   const mobile = window.matchMedia("(max-width: 860px)").matches;
   const viewportHeight = getStableViewportHeight(mobile);
-  const rect = story.getBoundingClientRect();
   const scrollable = Math.max(1, story.offsetHeight - viewportHeight);
   const cardsEnd = mobile ? 0.78 : 0.74;
   const archStart = mobile ? 0.82 : 0.78;
@@ -308,9 +312,23 @@ function updateStory() {
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
   const oneCardScrollLength = (cardsEnd * scrollable * cardGap) / cardTravelLength;
   const introScrollLength = oneCardScrollLength;
-  introTargetProgress = clamp(window.scrollY / introScrollLength, 0, 1);
-  introRenderProgress += (introTargetProgress - introRenderProgress) * (mobile ? 0.12 : 1);
-  const introProgress = mobile ? introRenderProgress : introTargetProgress;
+  if (mobile) {
+    if (!mobileVirtualReady) {
+      mobileVirtualScroll = window.scrollY;
+      mobileVirtualReady = true;
+      window.scrollTo(0, 0);
+    } else if (Math.abs(window.scrollY) > 1) {
+      window.scrollTo(0, 0);
+    }
+  } else {
+    mobileVirtualReady = false;
+    mobileVirtualScroll = window.scrollY;
+  }
+
+  const effectiveScroll = mobile ? mobileVirtualScroll : window.scrollY;
+  introTargetProgress = clamp(effectiveScroll / introScrollLength, 0, 1);
+  introRenderProgress += (introTargetProgress - introRenderProgress) * 1;
+  const introProgress = introRenderProgress;
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
   intro.style.setProperty("--intro-screen-opacity", "1");
@@ -318,7 +336,7 @@ function updateStory() {
   introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
 
-  storyProgress = clamp(-rect.top / scrollable, 0, 1);
+  storyProgress = clamp((effectiveScroll - story.offsetTop) / scrollable, 0, 1);
   const cardProgress = clamp(storyProgress / cardsEnd, 0, 1);
   const rawTravel = cardProgress * cardTravelLength;
   const travel = rawTravel;
