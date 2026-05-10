@@ -117,6 +117,7 @@ function getSnapPoints() {
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const cardsEnd = mobile ? 0.78 : 0.74;
   const finalStart = mobile ? 0.94 : 0.91;
+  const finalSnap = mobile ? 0.995 : finalStart;
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
@@ -129,7 +130,7 @@ function getSnapPoints() {
     points.push(storyTop + cardsEnd * scrollable * cardProgress);
   });
 
-  points.push(storyTop + finalStart * scrollable);
+  points.push(storyTop + finalSnap * scrollable);
 
   return [...new Set(points
     .map((point) => Math.round(clamp(point, 0, maxScroll)))
@@ -161,7 +162,7 @@ function snapToIndex(index) {
   const top = points[targetIndex];
   const startTop = window.scrollY;
   const distance = top - startTop;
-  const duration = 4400;
+  const duration = 2500;
   const startedAt = performance.now();
 
   if (Math.abs(distance) < 2) {
@@ -514,8 +515,8 @@ function initScene() {
     arch.rotation.y = 0;
     bride.rotation.y = 0.08;
     groom.rotation.y = -0.08;
-    bride.position.x = (mobile ? -0.18 : -0.42) - gateSpread;
-    groom.position.x = (mobile ? 0.38 : 0.78) + gateSpread;
+    bride.position.x = (mobile ? -0.3 : -0.42) - gateSpread;
+    groom.position.x = (mobile ? 0.3 : 0.78) + gateSpread;
     bride.position.z = 0.1 + passEase * 0.2;
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
