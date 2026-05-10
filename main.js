@@ -107,7 +107,7 @@ function updateStory() {
   const archStart = mobile ? 0.82 : 0.78;
   const passStart = mobile ? 0.89 : 0.85;
   const finalStart = mobile ? 0.94 : 0.91;
-  const cardGap = mobile ? 1.97 : 2.8;
+  const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
   const oneCardScrollLength = (cardsEnd * scrollable * cardGap) / cardTravelLength;
