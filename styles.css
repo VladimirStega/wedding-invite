@@ -470,6 +470,7 @@ h1 span {
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
+    transition: opacity 120ms linear, transform 80ms linear;
   }
 
   .story-card--left,
