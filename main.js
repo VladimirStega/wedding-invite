@@ -22,6 +22,13 @@ let stableViewportWidth = window.innerWidth;
 let introTargetProgress = 0;
 let introRenderProgress = 0;
 let sceneRunning = false;
+let mobileSnapReady = false;
+let snapInProgress = false;
+let snapTimer = 0;
+let touchStartY = 0;
+let touchCurrentY = 0;
+let touchStartScroll = 0;
+let touchActive = false;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -96,6 +103,170 @@ function cardOpacity(localTravel) {
   const fadeIn = smoothStep(rangeProgress(localTravel, -1.05, -0.25));
   const fadeOut = 1 - smoothStep(rangeProgress(localTravel, 0.48, 0.92));
   return clamp(Math.min(fadeIn, fadeOut), 0, 1);
+}
+
+function isMobileLayout() {
+  return window.matchMedia("(max-width: 860px)").matches;
+}
+
+function getSnapPoints() {
+  const mobile = isMobileLayout();
+  const viewportHeight = getStableViewportHeight(mobile);
+  const scrollable = Math.max(1, story.offsetHeight - viewportHeight);
+  const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const cardsEnd = mobile ? 0.78 : 0.74;
+  const archStart = mobile ? 0.82 : 0.78;
+  const finalStart = mobile ? 0.94 : 0.91;
+  const cardGap = mobile ? 1.25 : 2.8;
+  const frameOffset = 0.82;
+  const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
+  const storyTop = story.offsetTop;
+  const points = [0];
+
+  cards.forEach((_, index) => {
+    const cardTravel = index * cardGap + frameOffset;
+    const cardProgress = clamp(cardTravel / cardTravelLength, 0, 1);
+    points.push(storyTop + cardsEnd * scrollable * cardProgress);
+  });
+
+  points.push(storyTop + archStart * scrollable);
+  points.push(storyTop + finalStart * scrollable);
+
+  return [...new Set(points
+    .map((point) => Math.round(clamp(point, 0, maxScroll)))
+    .sort((a, b) => a - b))];
+}
+
+function getNearestSnapIndex(points, scrollY = window.scrollY) {
+  let nearestIndex = 0;
+  let nearestDistance = Infinity;
+
+  points.forEach((point, index) => {
+    const distance = Math.abs(point - scrollY);
+    if (distance < nearestDistance) {
+      nearestDistance = distance;
+      nearestIndex = index;
+    }
+  });
+
+  return nearestIndex;
+}
+
+function snapToIndex(index) {
+  if (!isMobileLayout()) {
+    return;
+  }
+
+  const points = getSnapPoints();
+  const targetIndex = clamp(index, 0, points.length - 1);
+  const top = points[targetIndex];
+  snapInProgress = true;
+  window.scrollTo({ top, behavior: "smooth" });
+  window.clearTimeout(snapTimer);
+  snapTimer = window.setTimeout(() => {
+    snapInProgress = false;
+  }, 720);
+}
+
+function snapByDirection(direction, fromScroll = window.scrollY) {
+  const points = getSnapPoints();
+  const nearestIndex = getNearestSnapIndex(points, fromScroll);
+  const targetIndex = direction > 0 ? nearestIndex + 1 : nearestIndex - 1;
+  snapToIndex(targetIndex);
+}
+
+function settleToNearestSnap() {
+  if (!isMobileLayout() || snapInProgress || touchActive) {
+    return;
+  }
+
+  const points = getSnapPoints();
+  snapToIndex(getNearestSnapIndex(points));
+}
+
+function scheduleSnapSettle() {
+  if (!isMobileLayout() || snapInProgress || touchActive) {
+    return;
+  }
+
+  window.clearTimeout(snapTimer);
+  snapTimer = window.setTimeout(settleToNearestSnap, 180);
+}
+
+function canScrollCard(target, deltaY) {
+  const card = target.closest?.(".story-card");
+  if (!card || card.scrollHeight <= card.clientHeight + 1) {
+    return false;
+  }
+
+  if (deltaY > 0) {
+    return card.scrollTop + card.clientHeight < card.scrollHeight - 1;
+  }
+
+  return card.scrollTop > 1;
+}
+
+function initMobileSnap() {
+  if (mobileSnapReady) {
+    return;
+  }
+
+  mobileSnapReady = true;
+
+  window.addEventListener("wheel", (event) => {
+    if (!isMobileLayout() || Math.abs(event.deltaY) < 8) {
+      return;
+    }
+
+    event.preventDefault();
+    if (!snapInProgress) {
+      snapByDirection(Math.sign(event.deltaY));
+    }
+  }, { passive: false });
+
+  window.addEventListener("touchstart", (event) => {
+    if (!isMobileLayout() || event.touches.length !== 1) {
+      return;
+    }
+
+    touchActive = true;
+    touchStartY = event.touches[0].clientY;
+    touchCurrentY = touchStartY;
+    touchStartScroll = window.scrollY;
+  }, { passive: true });
+
+  window.addEventListener("touchmove", (event) => {
+    if (!isMobileLayout() || !touchActive || event.touches.length !== 1) {
+      return;
+    }
+
+    const nextY = event.touches[0].clientY;
+    const deltaY = touchCurrentY - nextY;
+    touchCurrentY = nextY;
+
+    if (!canScrollCard(event.target, deltaY)) {
+      event.preventDefault();
+    }
+  }, { passive: false });
+
+  window.addEventListener("touchend", (event) => {
+    if (!isMobileLayout() || !touchActive) {
+      touchActive = false;
+      return;
+    }
+
+    const endY = event.changedTouches[0]?.clientY ?? touchStartY;
+    const touchDelta = touchStartY - endY;
+    const scrollDelta = window.scrollY - touchStartScroll;
+    const directionSource = Math.abs(touchDelta) > Math.abs(scrollDelta) ? touchDelta : scrollDelta;
+    touchActive = false;
+
+    if (Math.abs(directionSource) > 18) {
+      snapByDirection(Math.sign(directionSource), touchStartScroll);
+    } else {
+      settleToNearestSnap();
+    }
+  }, { passive: true });
 }
 
 function updateStory() {
@@ -371,6 +542,8 @@ function startPage() {
   if (!sceneRunning) {
     window.addEventListener("scroll", updateStory, { passive: true });
   }
+  initMobileSnap();
+  window.addEventListener("scroll", scheduleSnapSettle, { passive: true });
   window.addEventListener("resize", updateStory);
 }
 
@@ -385,6 +558,8 @@ import("https://unpkg.com/three@0.164.1/build/three.module.js")
     updateStory();
     setInterval(updateCountdown, 1000);
     window.addEventListener("scroll", updateStory, { passive: true });
+    initMobileSnap();
+    window.addEventListener("scroll", scheduleSnapSettle, { passive: true });
     window.addEventListener("resize", updateStory);
     console.error(error);
   });
