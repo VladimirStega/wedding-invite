@@ -164,7 +164,7 @@ h1 span {
   display: block;
   padding: 8px 3px 6px;
   border-bottom: 1px solid rgba(174, 17, 27, 0.34);
-  font-size: clamp(30px, 5.7vw, 48px);
+  font-size: clamp(34px, 6.2vw, 54px);
   line-height: 1;
 }
 

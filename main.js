@@ -339,15 +339,16 @@ function updateStory() {
   const countdownFadeOut = 1 - smoothStep(rangeProgress(introProgress, 0.5, 0.66));
   const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.72, 0.84));
   const countdownOpacity = countdownDock ? countdownFadeIn : countdownFadeOut;
-  const countdownHeroTop = viewportHeight * 0.5 + (mobile ? 132 : 168);
+  const countdownHeroTop = viewportHeight * 0.5 + (mobile ? 98 : 126) - introDepth * (mobile ? 36 : 54);
   const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
+  const countdownHeroScale = 1 + introDepth * (mobile ? 0.42 : 0.58);
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");
   introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
   countdownPanel.classList.toggle("countdown--portal", countdownDock > 0.98);
   countdownPanel.style.setProperty("--countdown-top", `${mix(countdownHeroTop, countdownDockTop, countdownDock).toFixed(1)}px`);
-  countdownPanel.style.setProperty("--countdown-scale", (mix(1, 0.9, countdownDock)).toFixed(3));
+  countdownPanel.style.setProperty("--countdown-scale", (countdownDock ? 0.9 : countdownHeroScale).toFixed(3));
   countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? "min(86vw, 470px)" : "min(91vw, 505px)");
   countdownPanel.style.setProperty("--countdown-opacity", countdownOpacity.toFixed(3));
   countdownPanel.style.setProperty("--countdown-events", "none");
