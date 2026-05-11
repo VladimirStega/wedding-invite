@@ -335,20 +335,21 @@ function updateStory() {
   const introProgress = introRenderProgress;
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
+  const introScale = 1 + introDepth * (mobile ? 1.45 : 2.15);
   const countdownDock = introProgress > 0.72 ? 1 : 0;
   const countdownFadeOut = 1 - smoothStep(rangeProgress(introProgress, 0.5, 0.66));
   const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.72, 0.84));
   const countdownOpacity = countdownDock ? countdownFadeIn : countdownFadeOut;
-  const countdownHeroTop = viewportHeight * 0.5 + (mobile ? 98 : 126) - introDepth * (mobile ? 36 : 54);
+  const countdownHeroOffset = mobile ? 98 : 126;
+  const countdownHeroTop = viewportHeight * 0.5 + countdownHeroOffset * introScale;
   const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
-  const countdownHeroScale = 1 + introDepth * (mobile ? 0.42 : 0.58);
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");
-  introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
+  introText.style.setProperty("--intro-scale", introScale.toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
   countdownPanel.classList.toggle("countdown--portal", countdownDock > 0.98);
   countdownPanel.style.setProperty("--countdown-top", `${mix(countdownHeroTop, countdownDockTop, countdownDock).toFixed(1)}px`);
-  countdownPanel.style.setProperty("--countdown-scale", (countdownDock ? 0.9 : countdownHeroScale).toFixed(3));
+  countdownPanel.style.setProperty("--countdown-scale", (countdownDock ? 0.9 : introScale).toFixed(3));
   countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? "min(86vw, 470px)" : "min(91vw, 505px)");
   countdownPanel.style.setProperty("--countdown-opacity", countdownOpacity.toFixed(3));
   countdownPanel.style.setProperty("--countdown-events", "none");
@@ -538,7 +539,7 @@ function initScene() {
     const revealEase = smoothStep(archProgress);
     const passEase = smoothStep(passProgress);
     const finalEase = smoothStep(finaleProgress);
-    const sceneScale = (mobile ? 0.44 : 0.66) + revealEase * (mobile ? 0.055 : 0.12) + passEase * (mobile ? 0.08 : 0.28);
+    const sceneScale = (mobile ? 0.44 : 0.66) + revealEase * (mobile ? 0.055 : 0.12) + passEase * (mobile ? 0.08 : 0.2);
     const meadowLift = (1 - revealEase) * -0.1 + passEase * 0.08;
     const gateSpread = passEase * (mobile ? 0.12 : 0.92);
 
@@ -561,7 +562,7 @@ function initScene() {
 
     camera.position.x = 0;
     camera.position.y = (mobile ? 0.48 : 0.7) + passEase * 0.12;
-    camera.position.z = (mobile ? 11.25 : 10.9) - passEase * (mobile ? 2.65 : 3.75);
+    camera.position.z = (mobile ? 11.25 : 10.9) - passEase * (mobile ? 2.65 : 3.05);
     lookTarget.set(0.12, mobile ? -0.25 + passEase * 0.08 : -0.18 + passEase * 0.14, -0.2);
     camera.lookAt(lookTarget);
 

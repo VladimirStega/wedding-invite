@@ -33,7 +33,7 @@ body {
 .intro {
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 40;
   height: 100svh;
   overflow: hidden;
   pointer-events: none;
@@ -123,7 +123,7 @@ h1 span {
   top: var(--countdown-top, calc(50svh + 132px));
   bottom: auto;
   left: 50%;
-  z-index: 25;
+  z-index: 50;
   width: var(--countdown-width, min(86vw, 470px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
@@ -244,24 +244,27 @@ h1 span {
   position: absolute;
   top: 50%;
   z-index: 5;
-  width: min(430px, calc(100vw - 38px));
+  display: flex;
+  width: min(500px, calc(100vw - 38px));
+  height: min(72svh, 520px);
   max-height: min(78svh, 690px);
   overflow: auto;
   padding: clamp(22px, 3.2vw, 34px);
+  flex-direction: column;
+  justify-content: center;
   border: 1px solid rgba(174, 17, 27, 0.46);
   color: var(--ink);
-  background:
-    linear-gradient(90deg, rgba(174, 17, 27, 0.08), transparent 22%, transparent 78%, rgba(174, 17, 27, 0.07)),
-    rgba(255, 248, 234, 0.92);
-  box-shadow: var(--shadow);
+  background: transparent;
+  box-shadow: none;
   opacity: var(--card-opacity, 0);
+  text-align: center;
   transform:
     translate3d(var(--card-x, 0), calc(-50% + var(--card-y, 0px)), var(--card-z, -1800px))
     scale(var(--card-scale, 0.96));
   transform-style: preserve-3d;
   transform-origin: center center;
   transition: opacity 220ms ease, transform 520ms cubic-bezier(0.075, 0.5, 0, 1);
-  backdrop-filter: blur(10px);
+  backdrop-filter: none;
   will-change: opacity, transform;
 }
 
@@ -286,15 +289,11 @@ h1 span {
 }
 
 .story-card--wide {
-  width: min(520px, calc(100vw - 38px));
+  width: min(500px, calc(100vw - 38px));
 }
 
 .card-kicker {
-  margin: 0 0 10px;
-  color: var(--red);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  display: none;
 }
 
 .story-card h2 {
@@ -311,7 +310,7 @@ h1 span {
 }
 
 .quote-card {
-  width: min(560px, calc(100vw - 38px));
+  width: min(500px, calc(100vw - 38px));
   text-align: center;
 }
 
@@ -324,9 +323,11 @@ h1 span {
 
 .schedule {
   position: relative;
-  margin: 28px 0 0;
+  width: min(100%, 390px);
+  margin: 28px auto 0;
   padding: 0;
   list-style: none;
+  text-align: left;
 }
 
 .schedule::before {
@@ -381,6 +382,7 @@ h1 span {
 
 .palette {
   display: flex;
+  justify-content: center;
   gap: 14px;
   margin-top: 24px;
 }
@@ -396,7 +398,7 @@ h1 span {
 
 .map-placeholder {
   display: grid;
-  min-height: 210px;
+  min-height: 160px;
   margin-top: 20px;
   border: 1px solid rgba(174, 17, 27, 0.4);
   place-items: center;
@@ -404,7 +406,7 @@ h1 span {
   background:
     linear-gradient(90deg, rgba(174, 17, 27, 0.1) 1px, transparent 1px) 0 0 / 38px 38px,
     linear-gradient(rgba(174, 17, 27, 0.1) 1px, transparent 1px) 0 0 / 38px 38px,
-    rgba(255, 248, 234, 0.64);
+    transparent;
 }
 
 .map-placeholder strong,
@@ -473,7 +475,8 @@ h1 span {
     bottom: 50%;
     left: 16px;
     width: auto;
-    max-height: 45svh;
+    height: min(56svh, 460px);
+    max-height: 56svh;
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
