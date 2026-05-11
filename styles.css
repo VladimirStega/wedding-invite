@@ -127,7 +127,7 @@ h1 span {
   width: var(--countdown-width, min(86vw, 470px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.48);
   box-shadow: none;
   opacity: var(--countdown-opacity, 1);
   pointer-events: var(--countdown-events, none);
@@ -254,7 +254,7 @@ h1 span {
   justify-content: center;
   border: 1px solid rgba(174, 17, 27, 0.46);
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.48);
   box-shadow: none;
   opacity: var(--card-opacity, 0);
   text-align: center;
