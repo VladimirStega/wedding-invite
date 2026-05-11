@@ -537,8 +537,8 @@ function initScene() {
     arch.rotation.y = 0;
     bride.rotation.y = mobile ? 0 : 0.08;
     groom.rotation.y = mobile ? 0 : -0.08;
-    bride.position.x = (mobile ? -0.32 : -0.42) - gateSpread;
-    groom.position.x = (mobile ? 0.32 : 0.78) + gateSpread;
+    bride.position.x = (mobile ? -0.18 : -0.42) - gateSpread;
+    groom.position.x = (mobile ? 0.54 : 0.78) + gateSpread;
     bride.position.z = 0.1 + passEase * 0.2;
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
