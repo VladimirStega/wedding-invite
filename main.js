@@ -69,6 +69,10 @@ function snapEase(value) {
   return clamp(value, 0, 1);
 }
 
+function mix(start, end, progress) {
+  return start + (end - start) * clamp(progress, 0, 1);
+}
+
 function rangeProgress(value, start, end) {
   return clamp((value - start) / Math.max(0.001, end - start), 0, 1);
 }
@@ -331,10 +335,19 @@ function updateStory() {
   const introProgress = introRenderProgress;
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
+  const countdownDock = smoothStep(rangeProgress(introProgress, 0.08, 0.72));
+  const countdownHeroTop = viewportHeight * 0.5 + (mobile ? 132 : 168);
+  const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");
   introText.style.setProperty("--intro-scale", (1 + introDepth * (mobile ? 1.45 : 2.15)).toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
+  countdownPanel.classList.toggle("countdown--portal", countdownDock > 0.98);
+  countdownPanel.style.setProperty("--countdown-top", `${mix(countdownHeroTop, countdownDockTop, countdownDock).toFixed(1)}px`);
+  countdownPanel.style.setProperty("--countdown-scale", (mix(1, 0.9, countdownDock)).toFixed(3));
+  countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? "min(86vw, 470px)" : "min(91vw, 505px)");
+  countdownPanel.style.setProperty("--countdown-opacity", "1");
+  countdownPanel.style.setProperty("--countdown-events", "none");
 
   storyProgress = clamp((effectiveScroll - story.offsetTop) / scrollable, 0, 1);
   const cardProgress = clamp(storyProgress / cardsEnd, 0, 1);
@@ -385,9 +398,6 @@ function updateStory() {
     card.style.pointerEvents = isActive && fullFocus > 0.35 && storyProgress < archStart ? "auto" : "none";
   });
 
-  countdownPanel.classList.toggle("countdown--portal", finaleProgress > 0.18);
-  countdownPanel.style.setProperty("--countdown-opacity", smoothStep(finaleProgress).toFixed(3));
-  countdownPanel.style.setProperty("--countdown-events", finaleProgress > 0.75 ? "auto" : "none");
   portalFinale.style.setProperty("--portal-opacity", smoothStep(finaleProgress).toFixed(3));
   portalFinale.style.setProperty("--portal-scale", (0.94 + smoothStep(finaleProgress) * 0.06).toFixed(3));
   portalFinale.style.setProperty("--portal-y", `${(1 - smoothStep(finaleProgress)) * 24}px`);

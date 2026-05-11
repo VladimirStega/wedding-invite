@@ -64,7 +64,7 @@ body {
   opacity: var(--intro-opacity, 1);
   animation: introTextAppear 900ms ease 360ms both;
   transform:
-    translate3d(0, var(--intro-y, 0), 0)
+    translate3d(0, calc(var(--intro-y, 0) - 7vh), 0)
     scale(var(--intro-scale, 1));
   transition: opacity 120ms linear, transform 120ms linear;
   backface-visibility: hidden;
@@ -85,10 +85,18 @@ body {
 .eyebrow,
 .date-line {
   margin: 0;
-  color: var(--muted);
-  font-size: clamp(13px, 1.55vw, 18px);
   font-weight: 700;
   letter-spacing: 0.14em;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: clamp(13px, 1.55vw, 18px);
+}
+
+.date-line {
+  color: var(--red);
+  font-size: clamp(16px, 1.95vw, 24px);
 }
 
 h1,
@@ -112,26 +120,25 @@ h1 span {
 
 .countdown {
   position: fixed;
-  left: clamp(18px, 4vw, 58px);
-  bottom: clamp(18px, 4vw, 48px);
-  z-index: 15;
-  width: min(91vw, 505px);
+  top: var(--countdown-top, calc(50svh + 132px));
+  bottom: auto;
+  left: 50%;
+  z-index: 25;
+  width: var(--countdown-width, min(86vw, 470px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
   background: rgba(255, 248, 234, 0.86);
   box-shadow: var(--shadow);
-  opacity: var(--countdown-opacity, 0);
+  opacity: var(--countdown-opacity, 1);
   pointer-events: var(--countdown-events, none);
   backdrop-filter: blur(12px);
-  transition: opacity 160ms linear, transform 160ms linear, top 160ms linear, bottom 160ms linear, left 160ms linear;
+  transform: translateX(-50%) scale(var(--countdown-scale, 1));
+  transform-origin: center top;
+  transition: opacity 160ms linear, transform 220ms linear, top 220ms linear, width 220ms linear;
 }
 
 .countdown--portal {
-  top: clamp(18px, 5vh, 52px);
-  bottom: auto;
-  left: 50%;
   width: min(86vw, 470px);
-  transform: translateX(-50%) scale(0.9);
 }
 
 .countdown::before {
@@ -456,8 +463,8 @@ h1 span {
 
   .countdown {
     left: 50%;
-    width: calc(100vw - 30px);
-    transform: translateX(-50%);
+    width: var(--countdown-width, calc(100vw - 30px));
+    transform: translateX(-50%) scale(var(--countdown-scale, 1));
   }
 
   .story-card {
