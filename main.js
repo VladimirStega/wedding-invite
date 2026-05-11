@@ -341,7 +341,7 @@ function updateStory() {
   const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.72, 0.84));
   const countdownOpacity = countdownDock ? countdownFadeIn : countdownFadeOut;
   const countdownHeroOffset = mobile ? 98 : 126;
-  const countdownHeroTop = viewportHeight * 0.5 + countdownHeroOffset * introScale;
+  const countdownHeroTop = viewportHeight * 0.43 + countdownHeroOffset * introScale;
   const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");

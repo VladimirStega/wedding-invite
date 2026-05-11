@@ -127,14 +127,14 @@ h1 span {
   width: var(--countdown-width, min(86vw, 470px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.72);
   box-shadow: none;
   opacity: var(--countdown-opacity, 1);
   pointer-events: var(--countdown-events, none);
-  backdrop-filter: none;
+  backdrop-filter: blur(8px);
   transform: translateX(-50%) scale(var(--countdown-scale, 1));
   transform-origin: center top;
-  transition: opacity 180ms linear, transform 180ms linear, width 180ms linear;
+  transition: opacity 180ms linear;
 }
 
 .countdown--portal {
@@ -254,7 +254,7 @@ h1 span {
   justify-content: center;
   border: 1px solid rgba(174, 17, 27, 0.46);
   color: var(--ink);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.72);
   box-shadow: none;
   opacity: var(--card-opacity, 0);
   text-align: center;
@@ -264,7 +264,7 @@ h1 span {
   transform-style: preserve-3d;
   transform-origin: center center;
   transition: opacity 220ms ease, transform 520ms cubic-bezier(0.075, 0.5, 0, 1);
-  backdrop-filter: none;
+  backdrop-filter: blur(8px);
   will-change: opacity, transform;
 }
 
