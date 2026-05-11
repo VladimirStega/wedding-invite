@@ -335,7 +335,10 @@ function updateStory() {
   const introProgress = introRenderProgress;
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
-  const countdownDock = smoothStep(rangeProgress(introProgress, 0.08, 0.72));
+  const countdownDock = introProgress > 0.72 ? 1 : 0;
+  const countdownFadeOut = 1 - smoothStep(rangeProgress(introProgress, 0.5, 0.66));
+  const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.72, 0.84));
+  const countdownOpacity = countdownDock ? countdownFadeIn : countdownFadeOut;
   const countdownHeroTop = viewportHeight * 0.5 + (mobile ? 132 : 168);
   const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
   intro.style.setProperty("--intro-screen-opacity", "1");
@@ -346,7 +349,7 @@ function updateStory() {
   countdownPanel.style.setProperty("--countdown-top", `${mix(countdownHeroTop, countdownDockTop, countdownDock).toFixed(1)}px`);
   countdownPanel.style.setProperty("--countdown-scale", (mix(1, 0.9, countdownDock)).toFixed(3));
   countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? "min(86vw, 470px)" : "min(91vw, 505px)");
-  countdownPanel.style.setProperty("--countdown-opacity", "1");
+  countdownPanel.style.setProperty("--countdown-opacity", countdownOpacity.toFixed(3));
   countdownPanel.style.setProperty("--countdown-events", "none");
 
   storyProgress = clamp((effectiveScroll - story.offsetTop) / scrollable, 0, 1);
