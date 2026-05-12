@@ -32,6 +32,7 @@ let touchStartY = 0;
 let touchCurrentY = 0;
 let touchStartScroll = 0;
 let touchActive = false;
+let countdownDocked = false;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -71,6 +72,21 @@ function snapEase(value) {
 
 function mix(start, end, progress) {
   return start + (end - start) * clamp(progress, 0, 1);
+}
+
+function setCountdownDocked(nextDocked) {
+  if (countdownDocked === nextDocked) {
+    return;
+  }
+
+  countdownDocked = nextDocked;
+  countdownPanel.classList.toggle("countdown--docked", nextDocked);
+
+  if (nextDocked) {
+    document.body.appendChild(countdownPanel);
+  } else {
+    introText.appendChild(countdownPanel);
+  }
 }
 
 function rangeProgress(value, start, end) {
@@ -336,20 +352,19 @@ function updateStory() {
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
   const introScale = 1 + introDepth * (mobile ? 1.45 : 2.15);
-  const countdownDock = introProgress > 0.72 ? 1 : 0;
-  const countdownFadeOut = 1 - smoothStep(rangeProgress(introProgress, 0.5, 0.66));
-  const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.72, 0.84));
+  const countdownDock = introProgress > 0.64 ? 1 : 0;
+  const countdownFadeOut = 1 - smoothStep(rangeProgress(introProgress, 0.48, 0.6));
+  const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.64, 0.76));
   const countdownOpacity = countdownDock ? countdownFadeIn : countdownFadeOut;
-  const countdownHeroOffset = mobile ? 98 : 126;
-  const countdownHeroTop = viewportHeight * 0.43 + countdownHeroOffset * introScale;
   const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
+  setCountdownDocked(countdownDock > 0.5);
   intro.style.setProperty("--intro-screen-opacity", "1");
   introText.style.setProperty("--intro-y", "0vh");
   introText.style.setProperty("--intro-scale", introScale.toFixed(3));
   introText.style.setProperty("--intro-opacity", (1 - introVanish).toFixed(3));
   countdownPanel.classList.toggle("countdown--portal", countdownDock > 0.98);
-  countdownPanel.style.setProperty("--countdown-top", `${mix(countdownHeroTop, countdownDockTop, countdownDock).toFixed(1)}px`);
-  countdownPanel.style.setProperty("--countdown-scale", (countdownDock ? 0.9 : introScale).toFixed(3));
+  countdownPanel.style.setProperty("--countdown-top", `${countdownDockTop.toFixed(1)}px`);
+  countdownPanel.style.setProperty("--countdown-scale", "0.9");
   countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? "min(86vw, 470px)" : "min(91vw, 505px)");
   countdownPanel.style.setProperty("--countdown-opacity", countdownOpacity.toFixed(3));
   countdownPanel.style.setProperty("--countdown-events", "none");
@@ -594,6 +609,7 @@ function startPage() {
   console.error(error);
 }
 
+  setCountdownDocked(false);
   updateCountdown();
   updateStory();
   setInterval(updateCountdown, 1000);
@@ -612,6 +628,7 @@ import("https://unpkg.com/three@0.164.1/build/three.module.js")
   })
   .catch((error) => {
     webglNote.textContent = "РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ 3D-СЃС†РµРЅСѓ";
+    setCountdownDocked(false);
     updateCountdown();
     updateStory();
     setInterval(updateCountdown, 1000);

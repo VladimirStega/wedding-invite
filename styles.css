@@ -119,11 +119,12 @@ h1 span {
 }
 
 .countdown {
-  position: fixed;
+  position: static;
   top: var(--countdown-top, calc(50svh + 132px));
   bottom: auto;
-  left: 50%;
+  left: auto;
   z-index: 50;
+  margin-top: 22px;
   width: var(--countdown-width, min(86vw, 470px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
@@ -132,12 +133,21 @@ h1 span {
   opacity: var(--countdown-opacity, 1);
   pointer-events: var(--countdown-events, none);
   backdrop-filter: blur(8px);
-  transform: translateX(-50%) scale(var(--countdown-scale, 1));
+  transform: none;
   transform-origin: center top;
   transition: opacity 180ms linear;
 }
 
-.countdown--portal {
+.countdown--docked {
+  position: fixed;
+  top: var(--countdown-top, clamp(18px, 5vh, 52px));
+  left: 50%;
+  margin-top: 0;
+  transform: translateX(-50%) scale(var(--countdown-scale, 0.9));
+}
+
+.countdown--portal,
+.countdown--docked {
   width: min(86vw, 470px);
 }
 
@@ -464,9 +474,12 @@ h1 span {
   }
 
   .countdown {
-    left: 50%;
     width: var(--countdown-width, calc(100vw - 30px));
-    transform: translateX(-50%) scale(var(--countdown-scale, 1));
+  }
+
+  .countdown--docked {
+    left: 50%;
+    transform: translateX(-50%) scale(var(--countdown-scale, 0.9));
   }
 
   .story-card {
