@@ -484,6 +484,22 @@ h1 span {
   border: 0;
 }
 
+.map-address {
+  margin: 16px 0 0;
+  color: var(--ink);
+  font-style: normal;
+  font-size: clamp(18px, 1.7vw, 23px);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.map-address span {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
 .portal-finale {
   position: fixed;
   right: auto;
