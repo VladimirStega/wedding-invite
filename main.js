@@ -188,7 +188,7 @@ function snapToIndex(index) {
   const top = points[targetIndex];
   const startTop = mobileVirtualScroll;
   const distance = top - startTop;
-  const duration = 2500;
+  const duration = 1600;
   const startedAt = performance.now();
 
   if (Math.abs(distance) < 2) {
