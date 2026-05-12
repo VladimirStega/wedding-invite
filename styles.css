@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Kurale&family=Marck+Script&family=Ponomar&display=swap");
 
 :root {
   --paper: #fff8ea;
@@ -25,7 +25,7 @@ body {
   min-width: 320px;
   color: var(--ink);
   background: #ffffff;
-  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+  font-family: "Kurale", Georgia, "Times New Roman", serif;
 }
 
 .invite {
@@ -93,20 +93,24 @@ body {
 
 .eyebrow {
   color: var(--muted);
+  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
   font-size: clamp(13px, 1.55vw, 18px);
 }
 
 .date-line {
   color: var(--red);
+  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
   font-size: clamp(16px, 1.95vw, 24px);
 }
 
 h1,
 h2,
+.map-placeholder strong {
+  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
+}
+
 .countdown strong,
-.schedule time,
-.map-placeholder strong,
-.quote-card p {
+.schedule time {
   font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 }
 
@@ -354,6 +358,7 @@ h1 span {
 .quote-card p {
   margin: 0;
   color: var(--red);
+  font-family: "Marck Script", "Kurale", Georgia, "Times New Roman", serif;
   font-size: clamp(42px, 6vw, 76px);
   font-style: italic;
   font-weight: 600;
@@ -436,29 +441,20 @@ h1 span {
 
 .map-placeholder {
   display: grid;
-  min-height: 160px;
+  min-height: 240px;
   margin-top: 20px;
   border: 1px solid rgba(174, 17, 27, 0.4);
   place-items: center;
   text-align: center;
-  background:
-    linear-gradient(90deg, rgba(174, 17, 27, 0.1) 1px, transparent 1px) 0 0 / 38px 38px,
-    linear-gradient(rgba(174, 17, 27, 0.1) 1px, transparent 1px) 0 0 / 38px 38px,
-    transparent;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.42);
 }
 
-.map-placeholder strong,
-.map-placeholder span {
-  display: block;
-}
-
-.map-placeholder strong {
-  font-size: 27px;
-}
-
-.map-placeholder span {
-  margin-top: 7px;
-  color: var(--muted);
+.map-placeholder iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  border: 0;
 }
 
 .portal-finale {

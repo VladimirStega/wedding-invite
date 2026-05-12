@@ -349,9 +349,9 @@ function updateStory() {
   const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
   const introScale = 1 + introDepth * (mobile ? 1.45 : 2.15);
-  const countdownDock = introProgress > 0.64 ? 1 : 0;
+  const countdownDock = introProgress > 0.9 ? 1 : 0;
   const countdownFadeOut = 1 - smoothStep(rangeProgress(introProgress, 0.48, 0.6));
-  const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.64, 0.76));
+  const countdownFadeIn = smoothStep(rangeProgress(introProgress, 0.9, 0.98));
   const countdownOpacity = countdownDock ? countdownFadeIn : countdownFadeOut;
   const countdownDockTop = Math.max(18, Math.min(viewportHeight * 0.05, 52));
   setCountdownDocked(countdownDock > 0.5);
