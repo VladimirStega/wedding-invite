@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Kurale&family=Marck+Script&family=Ponomar&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ponomar&family=Triodion&display=swap");
 
 :root {
   --paper: #fff8ea;
@@ -25,7 +25,7 @@ body {
   min-width: 320px;
   color: var(--ink);
   background: #ffffff;
-  font-family: "Kurale", Georgia, "Times New Roman", serif;
+  font-family: "Triodion", Georgia, "Times New Roman", serif;
 }
 
 .invite {
@@ -93,34 +93,39 @@ body {
 
 .eyebrow {
   color: var(--muted);
-  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
-  font-size: clamp(13px, 1.55vw, 18px);
+  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 1.7vw, 20px);
 }
 
 .date-line {
   color: var(--red);
-  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
-  font-size: clamp(18px, 2.25vw, 29px);
+  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-size: clamp(20px, 2.55vw, 34px);
+  text-shadow: 0 0 0.01px currentColor;
 }
 
 h1,
 h2,
 .map-placeholder strong {
-  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
+  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
 }
 
 .countdown strong,
 .schedule time {
-  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-family: "Triodion", Georgia, "Times New Roman", serif;
 }
 
 h1 {
-  max-width: 1240px;
-  margin: 18px auto;
-  font-size: clamp(56px, 10vw, 148px);
+  max-width: 1320px;
+  margin: 20px auto;
+  font-size: clamp(62px, 10.8vw, 164px);
   font-weight: 400;
-  line-height: 0.86;
+  line-height: 0.84;
   letter-spacing: 0;
+  text-shadow:
+    0.012em 0 currentColor,
+    -0.006em 0 currentColor,
+    0 0.006em currentColor;
 }
 
 h1 span {
@@ -133,8 +138,8 @@ h1 span {
   bottom: auto;
   left: auto;
   z-index: 50;
-  margin-top: clamp(26px, 3.4vh, 42px);
-  width: var(--countdown-width, min(91vw, 540px));
+  margin-top: clamp(30px, 3.8vh, 48px);
+  width: var(--countdown-width, min(93vw, 620px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
   background: rgba(255, 255, 255, 0.48);
@@ -162,12 +167,12 @@ h1 span {
 
 @media (min-width: 861px) {
   .countdown {
-    width: var(--countdown-width, min(82vw, 940px));
+    width: var(--countdown-width, min(86vw, 1120px));
   }
 
   .countdown--portal,
   .countdown--docked {
-    width: min(72vw, 760px);
+    width: min(76vw, 820px);
   }
 }
 
@@ -192,9 +197,11 @@ h1 span {
 
 .countdown strong {
   display: block;
-  padding: 8px 3px 6px;
+  padding: 10px 3px 7px;
   border-bottom: 1px solid rgba(174, 17, 27, 0.34);
-  font-size: clamp(38px, 6.7vw, 62px);
+  color: var(--ink);
+  font-size: clamp(42px, 7.2vw, 72px);
+  font-weight: 400;
   line-height: 1;
 }
 
@@ -202,7 +209,7 @@ h1 span {
   display: block;
   padding-top: 7px;
   color: var(--muted);
-  font-size: clamp(9px, 2.1vw, 12px);
+  font-size: clamp(10px, 2.2vw, 14px);
 }
 
 .story-scroll {
@@ -275,11 +282,11 @@ h1 span {
   top: 50%;
   z-index: 5;
   display: flex;
-  width: min(660px, calc(100vw - 38px));
-  height: min(76svh, 590px);
-  max-height: min(78svh, 690px);
+  width: min(740px, calc(100vw - 38px));
+  height: min(80svh, 650px);
+  max-height: min(82svh, 730px);
   overflow: auto;
-  padding: clamp(22px, 3.2vw, 34px);
+  padding: clamp(28px, 3.8vw, 46px);
   flex-direction: column;
   justify-content: center;
   border: 1px solid rgba(174, 17, 27, 0.46);
@@ -319,7 +326,7 @@ h1 span {
 }
 
 .story-card--wide {
-  width: min(660px, calc(100vw - 38px));
+  width: min(780px, calc(100vw - 38px));
 }
 
 .card-kicker {
@@ -329,22 +336,23 @@ h1 span {
 .story-card h2 {
   margin: 0;
   color: var(--red);
-  font-size: clamp(40px, 5vw, 62px);
+  font-size: clamp(44px, 5.25vw, 70px);
   font-weight: 400;
   line-height: 0.96;
+  text-shadow: 0.008em 0 currentColor;
 }
 
 .story-card p {
-  margin: 26px 0 0;
+  margin: 34px 0 0;
   color: var(--ink);
-  font-size: clamp(18px, 1.7vw, 22px);
-  line-height: 1.58;
+  font-size: clamp(20px, 1.85vw, 25px);
+  line-height: 1.62;
 }
 
 .quote-card {
   right: auto;
   left: 50%;
-  width: min(96vw, 1440px);
+  width: min(99vw, 1660px);
   height: min(82svh, 720px);
   border-color: transparent;
   background: transparent;
@@ -360,13 +368,15 @@ h1 span {
 }
 
 .quote-card p {
+  width: 100%;
   margin: 0;
-  color: #d0141f;
-  font-family: "Marck Script", "Kurale", Georgia, "Times New Roman", serif;
-  font-size: clamp(62px, 9.2vw, 156px);
-  font-style: italic;
-  font-weight: 600;
-  line-height: 1.08;
+  color: #c40012;
+  font-family: "Great Vibes", "Triodion", Georgia, "Times New Roman", serif;
+  font-size: clamp(54px, 6.4vw, 112px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .schedule {
@@ -412,22 +422,22 @@ h1 span {
 
 .schedule time {
   color: var(--red);
-  font-size: 31px;
-  font-weight: 700;
+  font-size: 34px;
+  font-weight: 400;
 }
 
 .schedule h3 {
   margin: 0;
   color: var(--red);
-  font-family: "Ponomar", "Kurale", Georgia, "Times New Roman", serif;
-  font-size: 21px;
+  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-size: 23px;
   letter-spacing: 0.06em;
 }
 
 .schedule p {
-  margin: 10px 0 0;
+  margin: 13px 0 0;
   color: var(--ink);
-  font-size: 17px;
+  font-size: 19px;
 }
 
 .palette {
@@ -518,8 +528,8 @@ h1 span {
     bottom: 50%;
     left: 16px;
     width: auto;
-    height: min(56svh, 460px);
-    max-height: 56svh;
+    height: min(61svh, 520px);
+    max-height: 61svh;
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
@@ -530,6 +540,7 @@ h1 span {
     right: 16px;
     left: 16px;
     width: auto;
+    height: min(64svh, 560px);
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));

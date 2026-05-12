@@ -362,7 +362,9 @@ function updateStory() {
   countdownPanel.classList.toggle("countdown--portal", countdownDock > 0.98);
   countdownPanel.style.setProperty("--countdown-top", `${countdownDockTop.toFixed(1)}px`);
   countdownPanel.style.setProperty("--countdown-scale", "0.9");
-  countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? "min(86vw, 470px)" : "min(91vw, 505px)");
+  const countdownHeroWidth = mobile ? "min(93vw, 620px)" : "min(86vw, 1120px)";
+  const countdownDockedWidth = mobile ? "min(88vw, 540px)" : "min(76vw, 820px)";
+  countdownPanel.style.setProperty("--countdown-width", countdownDock > 0.5 ? countdownDockedWidth : countdownHeroWidth);
   countdownPanel.style.setProperty("--countdown-opacity", countdownOpacity.toFixed(3));
   countdownPanel.style.setProperty("--countdown-events", "none");
 
