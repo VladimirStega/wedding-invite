@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap");
+
 :root {
   --paper: #fff8ea;
   --paper-soft: #f5e8d1;
@@ -23,7 +25,7 @@ body {
   min-width: 320px;
   color: var(--ink);
   background: #ffffff;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
 }
 
 .invite {
@@ -102,8 +104,10 @@ body {
 h1,
 h2,
 .countdown strong,
+.schedule time,
+.map-placeholder strong,
 .quote-card p {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 }
 
 h1 {
@@ -124,7 +128,7 @@ h1 span {
   bottom: auto;
   left: auto;
   z-index: 50;
-  margin-top: 22px;
+  margin-top: clamp(26px, 3.4vh, 42px);
   width: var(--countdown-width, min(86vw, 470px));
   padding: 12px;
   border: 1px solid rgba(174, 17, 27, 0.42);
@@ -149,6 +153,17 @@ h1 span {
 .countdown--portal,
 .countdown--docked {
   width: min(86vw, 470px);
+}
+
+@media (min-width: 861px) {
+  .countdown {
+    width: var(--countdown-width, min(72vw, 660px));
+  }
+
+  .countdown--portal,
+  .countdown--docked {
+    width: min(64vw, 620px);
+  }
 }
 
 .countdown::before {
@@ -255,7 +270,7 @@ h1 span {
   top: 50%;
   z-index: 5;
   display: flex;
-  width: min(500px, calc(100vw - 38px));
+  width: min(580px, calc(100vw - 38px));
   height: min(72svh, 520px);
   max-height: min(78svh, 690px);
   overflow: auto;
@@ -299,7 +314,7 @@ h1 span {
 }
 
 .story-card--wide {
-  width: min(500px, calc(100vw - 38px));
+  width: min(580px, calc(100vw - 38px));
 }
 
 .card-kicker {
@@ -308,27 +323,41 @@ h1 span {
 
 .story-card h2 {
   margin: 0;
-  font-size: clamp(30px, 4.2vw, 48px);
-  line-height: 1;
+  font-size: clamp(34px, 4.6vw, 54px);
+  line-height: 0.96;
 }
 
 .story-card p {
   margin: 16px 0 0;
   color: var(--muted);
-  font-size: clamp(16px, 1.6vw, 19px);
-  line-height: 1.62;
+  font-size: clamp(16px, 1.45vw, 18px);
+  line-height: 1.7;
 }
 
 .quote-card {
-  width: min(500px, calc(100vw - 38px));
+  right: auto;
+  left: 50%;
+  width: min(680px, calc(100vw - 38px));
+  border-color: transparent;
+  background: transparent;
+  backdrop-filter: none;
   text-align: center;
+  transform:
+    translate3d(calc(-50% + var(--card-x, 0)), calc(-50% + var(--card-y, 0px)), var(--card-z, -1800px))
+    scale(var(--card-scale, 0.96));
+}
+
+.quote-card::before {
+  content: none;
 }
 
 .quote-card p {
   margin: 0;
-  color: var(--red-dark);
-  font-size: clamp(31px, 5vw, 58px);
-  line-height: 1.14;
+  color: var(--red);
+  font-size: clamp(42px, 6vw, 76px);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.08;
 }
 
 .schedule {
@@ -374,7 +403,6 @@ h1 span {
 
 .schedule time {
   color: var(--red-dark);
-  font-family: Georgia, "Times New Roman", serif;
   font-size: 27px;
   font-weight: 700;
 }
@@ -425,7 +453,6 @@ h1 span {
 }
 
 .map-placeholder strong {
-  font-family: Georgia, "Times New Roman", serif;
   font-size: 27px;
 }
 
@@ -494,6 +521,15 @@ h1 span {
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
     transition: opacity 120ms linear, transform 80ms linear;
+  }
+
+  .quote-card {
+    right: 16px;
+    left: 16px;
+    width: auto;
+    transform:
+      translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
+      scale(var(--card-scale, 0.96));
   }
 
   .story-card--left,

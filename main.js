@@ -75,18 +75,15 @@ function mix(start, end, progress) {
 }
 
 function setCountdownDocked(nextDocked) {
-  if (countdownDocked === nextDocked) {
+  const targetParent = nextDocked ? document.body : introText;
+  if (countdownDocked === nextDocked && countdownPanel.parentElement === targetParent) {
     return;
   }
 
   countdownDocked = nextDocked;
   countdownPanel.classList.toggle("countdown--docked", nextDocked);
 
-  if (nextDocked) {
-    document.body.appendChild(countdownPanel);
-  } else {
-    introText.appendChild(countdownPanel);
-  }
+  targetParent.appendChild(countdownPanel);
 }
 
 function rangeProgress(value, start, end) {
