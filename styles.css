@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Ponomar&family=Triodion&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Monomakh&family=Ponomar&display=swap");
 
 :root {
   --paper: #fff8ea;
@@ -25,7 +25,7 @@ body {
   min-width: 320px;
   color: var(--ink);
   background: #ffffff;
-  font-family: "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Monomakh", Georgia, "Times New Roman", serif;
 }
 
 .invite {
@@ -93,13 +93,13 @@ body {
 
 .eyebrow {
   color: var(--muted);
-  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Ponomar", "Monomakh", Georgia, "Times New Roman", serif;
   font-size: clamp(14px, 1.7vw, 20px);
 }
 
 .date-line {
   color: var(--red);
-  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Ponomar", "Monomakh", Georgia, "Times New Roman", serif;
   font-size: clamp(20px, 2.55vw, 34px);
   text-shadow: 0 0 0.01px currentColor;
 }
@@ -107,12 +107,12 @@ body {
 h1,
 h2,
 .map-placeholder strong {
-  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Ponomar", "Monomakh", Georgia, "Times New Roman", serif;
 }
 
 .countdown strong,
 .schedule time {
-  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Monomakh", "Ponomar", Georgia, "Times New Roman", serif;
 }
 
 h1 {
@@ -371,7 +371,7 @@ h1 span {
   width: 100%;
   margin: 0;
   color: #c40012;
-  font-family: "Great Vibes", "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Great Vibes", "Monomakh", Georgia, "Times New Roman", serif;
   font-size: clamp(54px, 6.4vw, 112px);
   font-style: normal;
   font-weight: 400;
@@ -386,13 +386,18 @@ h1 span {
   padding: 0;
   list-style: none;
   text-align: left;
+  --schedule-time-column: 104px;
+  --schedule-gap: 44px;
+  --schedule-dot-size: 17px;
+  --schedule-time-size: 34px;
+  --schedule-axis: calc(var(--schedule-time-column) + var(--schedule-gap) / 2);
 }
 
 .schedule::before {
   position: absolute;
   top: 8px;
   bottom: 8px;
-  left: 126px;
+  left: var(--schedule-axis);
   width: 1px;
   content: "";
   background: linear-gradient(transparent, var(--red), transparent);
@@ -401,18 +406,18 @@ h1 span {
 .schedule li {
   position: relative;
   display: grid;
-  grid-template-columns: 104px 1fr;
-  gap: 44px;
+  grid-template-columns: var(--schedule-time-column) 1fr;
+  gap: var(--schedule-gap);
   align-items: start;
   padding-bottom: 26px;
 }
 
 .schedule li::before {
   position: absolute;
-  top: 2px;
-  left: 118px;
-  width: 17px;
-  height: 17px;
+  top: calc(var(--schedule-time-size) / 2 - var(--schedule-dot-size) / 2);
+  left: calc(var(--schedule-axis) - var(--schedule-dot-size) / 2);
+  width: var(--schedule-dot-size);
+  height: var(--schedule-dot-size);
   border: 1px solid var(--red);
   border-radius: 50%;
   content: "";
@@ -423,7 +428,7 @@ h1 span {
 
 .schedule time {
   color: var(--red);
-  font-size: 34px;
+  font-size: var(--schedule-time-size);
   font-weight: 400;
   line-height: 1;
   text-align: right;
@@ -432,14 +437,14 @@ h1 span {
 .schedule h3 {
   margin: 0;
   color: var(--red);
-  font-family: "Ponomar", "Triodion", Georgia, "Times New Roman", serif;
+  font-family: "Ponomar", "Monomakh", Georgia, "Times New Roman", serif;
   font-size: 22px;
   letter-spacing: 0.06em;
   line-height: 1.08;
 }
 
 .schedule p {
-  margin: 14px 0 0;
+  margin: 9px 0 0;
   color: var(--ink);
   font-size: 20px;
   line-height: 1.45;
@@ -541,6 +546,18 @@ h1 span {
     transition: opacity 120ms linear, transform 80ms linear;
   }
 
+  .schedule-card {
+    height: min(68svh, 560px);
+    max-height: 68svh;
+    overflow: hidden;
+    padding: clamp(18px, 4.4vw, 28px);
+  }
+
+  .schedule-card h2 {
+    font-size: clamp(30px, 8.6vw, 40px);
+    line-height: 0.9;
+  }
+
   .quote-card {
     right: 16px;
     left: 16px;
@@ -566,17 +583,33 @@ h1 span {
       scale(var(--portal-scale, 0.94));
   }
 
-  .schedule::before {
-    left: 100px;
+  .schedule {
+    width: 100%;
+    margin-top: clamp(18px, 4vh, 26px);
+    --schedule-time-column: clamp(66px, 19vw, 82px);
+    --schedule-gap: clamp(24px, 8vw, 34px);
+    --schedule-dot-size: 15px;
+    --schedule-time-size: clamp(28px, 8vw, 34px);
   }
 
   .schedule li {
-    grid-template-columns: 82px 1fr;
-    gap: 34px;
+    padding-bottom: clamp(14px, 3.5vh, 20px);
   }
 
-  .schedule li::before {
-    left: 92px;
+  .schedule time {
+    font-size: var(--schedule-time-size);
+  }
+
+  .schedule h3 {
+    font-size: clamp(19px, 5.7vw, 25px);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .schedule p {
+    margin-top: 6px;
+    font-size: clamp(15px, 4.25vw, 19px);
+    line-height: 1.22;
   }
 }
 
