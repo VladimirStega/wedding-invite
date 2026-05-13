@@ -572,6 +572,47 @@ h1 span {
     line-height: 0.9;
   }
 
+  .route-card {
+    height: min(70svh, 590px);
+    max-height: 70svh;
+    overflow: hidden;
+    justify-content: flex-start;
+    padding: clamp(18px, 4.4vw, 28px);
+  }
+
+  .route-card h2 {
+    font-size: clamp(28px, 8vw, 38px);
+    line-height: 0.92;
+  }
+
+  .route-card > p {
+    margin-top: clamp(16px, 3vh, 22px);
+    font-size: clamp(17px, 4.8vw, 22px);
+    line-height: 1.36;
+  }
+
+  .route-card .map-placeholder {
+    min-height: 0;
+    height: clamp(190px, 31svh, 270px);
+    margin-top: clamp(16px, 3vh, 22px);
+  }
+
+  .route-card .map-placeholder iframe {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .route-card .map-address {
+    margin-top: clamp(10px, 2vh, 14px);
+    font-size: clamp(16px, 4.4vw, 20px);
+    line-height: 1.24;
+  }
+
+  .route-card .map-address span {
+    margin-top: 2px;
+    font-size: 0.82em;
+  }
+
   .quote-card {
     right: 16px;
     left: 16px;
