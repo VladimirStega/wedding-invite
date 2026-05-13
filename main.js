@@ -382,7 +382,7 @@ function updateStory() {
   story.style.setProperty("--bg-lift", "0vh");
   story.style.setProperty("--bg-tilt", "0deg");
   story.style.setProperty("--bg-pitch", "0deg");
-  story.style.setProperty("--bg-scale", (1.02 + storyProgress * (mobile ? 0.045 : 0.08)).toFixed(3));
+  story.style.setProperty("--bg-scale", (1.03 + storyProgress * (mobile ? 0.07 : 0.13)).toFixed(3));
   canvas.style.setProperty("--scene-opacity", smoothStep(archProgress).toFixed(3));
   const cardsVisible = introProgress > 0.96;
   let activeCardIndex = -1;

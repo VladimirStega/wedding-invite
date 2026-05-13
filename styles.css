@@ -234,14 +234,12 @@ h1 span {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image:
-    linear-gradient(to bottom, rgba(255, 248, 234, 0.08), rgba(255, 248, 234, 0.5)),
-    url("./assets/folk-landscape-lines.png");
+  background-image: url("./assets/bg-rus-landscape-v4-2x.png");
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-size: auto 92vh;
-  opacity: 0.56;
-  filter: saturate(0.92);
+  background-size: max(100vw, 150vh) auto;
+  opacity: 0.68;
+  filter: saturate(1);
   -webkit-mask-image: linear-gradient(to bottom, #000 0 90%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0 90%, transparent 100%);
   transform:
