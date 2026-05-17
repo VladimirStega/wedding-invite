@@ -564,7 +564,7 @@ function initScene() {
     const sceneScale = (mobile ? mobileBaseScale : 0.66) + revealEase * (mobile ? mobileRevealScale : 0.12) + passEase * (mobile ? mobilePassScale : 0.2);
     const meadowLift = (1 - revealEase) * -0.1 + passEase * (compactMobile ? 0.02 : 0.08);
     const gateSpread = passEase * (mobile ? 0.12 : 0.92);
-    const mobileRootBaseY = compactMobile ? (shortMobile ? -0.56 : -0.5) : -0.34;
+    const mobileRootBaseY = compactMobile ? (shortMobile ? -0.76 : -0.68) : -0.46;
 
     root.rotation.y = 0;
     root.rotation.x = 0;
@@ -581,7 +581,7 @@ function initScene() {
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
     meadow.position.x = 0.02;
-    meadow.position.y = (compactMobile ? -2.02 : -1.86) - meadowLift;
+    meadow.position.y = (compactMobile ? -2.1 : -1.94) - meadowLift;
 
     camera.position.x = 0;
     camera.position.y = (mobile ? (compactMobile ? 0.38 : 0.48) : 0.7) + passEase * (compactMobile ? 0.07 : 0.12);
@@ -592,8 +592,8 @@ function initScene() {
     birds.forEach((bird, index) => {
       const direction = index === 1 ? -1 : 1;
       const layerShift = (storyProgress - 0.5) * (index === 1 ? -0.48 : 0.34);
-      const birdBaseX = compactMobile ? [-1.45, 2.35, -1.18][index] : [-2.65, 3.35, -2.18][index];
-      const birdBaseY = compactMobile ? [1.78, 2.68, 0.92][index] : [1.82, 2.78, 0.72][index];
+      const birdBaseX = compactMobile ? [-2.22, 2.35, -1.18][index] : [-3.12, 3.35, -2.18][index];
+      const birdBaseY = compactMobile ? [2.28, 2.68, 0.92][index] : [2.34, 2.78, 0.72][index];
       bird.position.x = birdBaseX + (compactMobile ? layerShift * 0.28 : layerShift) + Math.sin(elapsed * 0.5 + index) * 0.018 * direction;
       bird.position.y = birdBaseY + Math.cos(elapsed * 0.75 + index) * 0.014;
       bird.rotation.z = Math.sin(elapsed * 1.1 + index) * 0.08;
