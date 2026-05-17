@@ -290,9 +290,11 @@ h1 {
   left: 50%;
   z-index: 5;
   display: flex;
-  width: min(clamp(520px, 43vw, 700px), calc(100vw - 128px));
-  height: min(80svh, 650px);
-  max-height: min(82svh, 730px);
+  --card-side-offset: clamp(86px, 10vw, 190px);
+  width: clamp(420px, 34vw, 620px);
+  max-width: calc(100vw - (var(--card-side-offset) * 2) - 88px);
+  height: clamp(420px, 66svh, 620px);
+  max-height: calc(100svh - 156px);
   overflow: hidden;
   padding: clamp(28px, 3.8vw, 46px);
   flex-direction: column;
@@ -322,17 +324,18 @@ h1 {
 }
 
 .story-card--left {
-  --card-offset: clamp(-140px, -8vw, -72px);
+  --card-offset: calc(-1 * var(--card-side-offset));
   --hidden-x: -72vw;
 }
 
 .story-card--right {
-  --card-offset: clamp(72px, 8vw, 140px);
+  --card-offset: var(--card-side-offset);
   --hidden-x: 72vw;
 }
 
 .story-card--wide {
-  width: min(clamp(600px, 52vw, 840px), calc(100vw - 128px));
+  width: clamp(520px, 43vw, 760px);
+  max-width: calc(100vw - (var(--card-side-offset) * 2) - 88px);
 }
 
 .card-kicker {
@@ -342,17 +345,17 @@ h1 {
 .story-card h2 {
   margin: 0;
   color: var(--ink);
-  font-size: clamp(34px, 4vw, 54px);
+  font-size: clamp(30px, 3.25vw, 46px);
   font-weight: 400;
   line-height: 0.96;
   text-shadow: 0.008em 0 currentColor;
 }
 
 .story-card p {
-  margin: 34px 0 0;
+  margin: clamp(24px, 3vh, 32px) 0 0;
   color: var(--ink);
-  font-size: clamp(21px, 1.95vw, 26px);
-  line-height: 1.62;
+  font-size: clamp(18px, 1.42vw, 23px);
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
@@ -568,9 +571,11 @@ h1 {
   .story-card {
     right: auto;
     left: 50%;
-    width: min(clamp(500px, 62vw, 640px), calc(100vw - 128px));
-    height: min(76svh, 620px);
-    max-height: 76svh;
+    --card-side-offset: clamp(50px, 7vw, 82px);
+    width: clamp(430px, 58vw, 610px);
+    max-width: calc(100vw - (var(--card-side-offset) * 2) - 48px);
+    height: clamp(400px, 72svh, 600px);
+    max-height: calc(100svh - 140px);
     padding: clamp(24px, 3.2vw, 38px);
     overflow: hidden;
     transform:
@@ -579,24 +584,25 @@ h1 {
   }
 
   .story-card--left {
-    --tablet-card-offset: clamp(-82px, -7vw, -54px);
+    --tablet-card-offset: calc(-1 * var(--card-side-offset));
   }
 
   .story-card--right {
-    --tablet-card-offset: clamp(54px, 7vw, 82px);
+    --tablet-card-offset: var(--card-side-offset);
   }
 
   .story-card--wide {
-    width: min(clamp(560px, 72vw, 700px), calc(100vw - 128px));
+    width: clamp(500px, 68vw, 690px);
+    max-width: calc(100vw - (var(--card-side-offset) * 2) - 48px);
   }
 
   .story-card h2 {
-    font-size: clamp(32px, 4.2vw, 46px);
+    font-size: clamp(28px, 3.8vw, 40px);
   }
 
   .story-card p {
     margin-top: clamp(22px, 3vh, 30px);
-    font-size: clamp(19px, 2.2vw, 23px);
+    font-size: clamp(18px, 2vw, 22px);
     line-height: 1.48;
   }
 

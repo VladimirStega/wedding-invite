@@ -137,13 +137,15 @@ function isMobileLayout() {
   return window.matchMedia("(max-width: 860px)").matches;
 }
 
+function isSnapLayout() {
+  return window.matchMedia("(pointer: coarse), (hover: none)").matches;
+}
+
 function getSnapPoints() {
   const mobile = isMobileLayout();
   const viewportHeight = getStableViewportHeight(mobile);
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const cardsEnd = mobile ? 0.78 : 0.74;
-  const finalStart = mobile ? 0.94 : 0.91;
-  const finalSnap = mobile ? 0.995 : finalStart;
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
@@ -158,7 +160,7 @@ function getSnapPoints() {
     points.push(storyStart + cardsEnd * scrollable * cardProgress);
   });
 
-  points.push(storyStart + finalSnap * scrollable);
+  points.push(maxScroll);
 
   return [...new Set(points
     .map((point) => Math.round(clamp(point, 0, maxScroll)))
@@ -257,18 +259,18 @@ function snapByDirection(direction) {
 }
 
 function settleToNearestSnap() {
-  if (!isMobileLayout() || snapInProgress || touchActive) {
+  if (!isSnapLayout() || snapInProgress || touchActive) {
     return;
   }
 
   const points = getSnapPoints();
-  const nearestIndex = getNearestSnapIndex(points, mobileVirtualScroll);
+  const nearestIndex = getNearestSnapIndex(points, isMobileLayout() ? mobileVirtualScroll : window.scrollY);
   mobileSnapIndex = nearestIndex;
   snapToIndex(nearestIndex);
 }
 
 function scheduleSnapSettle() {
-  if (!isMobileLayout() || snapInProgress || touchActive) {
+  if (!isSnapLayout() || snapInProgress || touchActive) {
     return;
   }
 
@@ -302,6 +304,10 @@ function initMobileSnap() {
   mobileSnapReady = true;
 
   window.addEventListener("wheel", (event) => {
+    if (!isSnapLayout()) {
+      return;
+    }
+
     if (event.ctrlKey || Math.abs(event.deltaY) < 8) {
       return;
     }
@@ -313,7 +319,7 @@ function initMobileSnap() {
   }, { passive: false });
 
   window.addEventListener("touchstart", (event) => {
-    if (!isMobileLayout() || snapInProgress || event.touches.length !== 1) {
+    if (!isSnapLayout() || snapInProgress || event.touches.length !== 1) {
       touchActive = false;
       return;
     }
@@ -325,7 +331,7 @@ function initMobileSnap() {
   }, { passive: true });
 
   window.addEventListener("touchmove", (event) => {
-    if (!isMobileLayout() || event.touches.length !== 1) {
+    if (!isSnapLayout() || event.touches.length !== 1) {
       return;
     }
 
@@ -348,7 +354,7 @@ function initMobileSnap() {
   }, { passive: false });
 
   window.addEventListener("touchend", (event) => {
-    if (!isMobileLayout() || snapInProgress || !touchActive) {
+    if (!isSnapLayout() || snapInProgress || !touchActive) {
       touchActive = false;
       return;
     }
