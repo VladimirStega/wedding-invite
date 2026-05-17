@@ -255,10 +255,6 @@ h1 {
   transform-style: preserve-3d;
 }
 
-.background-lines {
-  display: none;
-}
-
 .three-scene {
   position: absolute;
   inset: 0;

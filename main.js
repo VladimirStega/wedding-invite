@@ -35,6 +35,8 @@ let touchStartScroll = 0;
 let touchActive = false;
 let countdownDocked = false;
 let mobileSnapIndex = 0;
+const snapCooldown = 900;
+let lastSnapCompletedAt = -snapCooldown;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -190,8 +192,12 @@ function snapToIndex(index) {
   const distance = top - startTop;
   const duration = 1600;
   const startedAt = performance.now();
+  lastSnapCompletedAt = startedAt;
 
   if (Math.abs(distance) < 2) {
+    snapInProgress = false;
+    mobileVirtualScroll = top;
+    updateStory();
     return;
   }
 
@@ -213,15 +219,20 @@ function snapToIndex(index) {
     mobileVirtualScroll = top;
     updateStory();
     snapInProgress = false;
+    lastSnapCompletedAt = performance.now();
   };
 
   snapAnimation = window.requestAnimationFrame(animateSnap);
 }
 
-function snapByDirection(direction, fromScroll = mobileVirtualScroll) {
+function snapByDirection(direction) {
+  if (snapInProgress || performance.now() - lastSnapCompletedAt < snapCooldown) {
+    return;
+  }
+
   const points = getSnapPoints();
-  const nearestIndex = snapInProgress ? mobileSnapIndex : getNearestSnapIndex(points, fromScroll);
-  const targetIndex = direction > 0 ? nearestIndex + 1 : nearestIndex - 1;
+  mobileSnapIndex = clamp(mobileSnapIndex, 0, points.length - 1);
+  const targetIndex = direction > 0 ? mobileSnapIndex + 1 : mobileSnapIndex - 1;
   snapToIndex(targetIndex);
 }
 
@@ -276,13 +287,14 @@ function initMobileSnap() {
     }
 
     event.preventDefault();
-    if (!snapInProgress) {
+    if (!snapInProgress && performance.now() - lastSnapCompletedAt >= snapCooldown) {
       snapByDirection(Math.sign(event.deltaY));
     }
   }, { passive: false });
 
   window.addEventListener("touchstart", (event) => {
-    if (!isMobileLayout() || event.touches.length !== 1) {
+    if (!isMobileLayout() || snapInProgress || event.touches.length !== 1) {
+      touchActive = false;
       return;
     }
 
@@ -293,7 +305,16 @@ function initMobileSnap() {
   }, { passive: true });
 
   window.addEventListener("touchmove", (event) => {
-    if (!isMobileLayout() || !touchActive || event.touches.length !== 1) {
+    if (!isMobileLayout() || event.touches.length !== 1) {
+      return;
+    }
+
+    if (snapInProgress) {
+      event.preventDefault();
+      return;
+    }
+
+    if (!touchActive) {
       return;
     }
 
@@ -307,7 +328,7 @@ function initMobileSnap() {
   }, { passive: false });
 
   window.addEventListener("touchend", (event) => {
-    if (!isMobileLayout() || !touchActive) {
+    if (!isMobileLayout() || snapInProgress || !touchActive) {
       touchActive = false;
       return;
     }
@@ -319,10 +340,14 @@ function initMobileSnap() {
     touchActive = false;
 
     if (Math.abs(directionSource) > 18) {
-      snapByDirection(Math.sign(directionSource), touchStartScroll);
+      snapByDirection(Math.sign(directionSource));
     } else {
       settleToNearestSnap();
     }
+  }, { passive: true });
+
+  window.addEventListener("touchcancel", () => {
+    touchActive = false;
   }, { passive: true });
 }
 
@@ -341,7 +366,8 @@ function updateStory() {
   const introScrollLength = oneCardScrollLength;
   if (mobile) {
     if (!mobileVirtualReady) {
-      mobileVirtualScroll = window.scrollY;
+      mobileVirtualScroll = 0;
+      mobileSnapIndex = 0;
       mobileVirtualReady = true;
       window.scrollTo(0, 0);
     } else if (Math.abs(window.scrollY) > 1) {
@@ -502,11 +528,6 @@ function initScene() {
   const archTexture = loadTexture(assetUrls.arch || "./assets/arch-line.png");
   const meadowTexture = loadTexture(assetUrls.meadow || "./assets/grass-medium-lines.png");
   const meadowFadeMap = createVerticalFadeMap();
-  const birdTextures = [
-    loadTexture(assetUrls.bird1 || "./assets/bird-line-1.png"),
-    loadTexture(assetUrls.bird2 || "./assets/bird-line-2.png"),
-    loadTexture(assetUrls.bird3 || "./assets/bird-line-3.png"),
-  ];
   const setRenderOrder = (object, order) => {
     object.traverse((child) => {
       child.renderOrder = order;
@@ -529,19 +550,6 @@ function initScene() {
   setRenderOrder(groom, 3);
   root.add(meadow, arch, bride, groom);
 
-  const birds = [
-    createAssetPlane(birdTextures[0], 0.95, 1.18, -2.65, 1.82, -0.35),
-    createAssetPlane(birdTextures[1], 1.08, 0.62, 2.48, 2.22, -0.4),
-    createAssetPlane(birdTextures[2], 0.8, 0.76, -2.18, 0.72, -0.1),
-  ];
-  birds[1].scale.x = -1;
-  birds.forEach((bird) => setRenderOrder(bird, 4));
-  birds.forEach((bird) => {
-    bird.userData.baseX = bird.position.x;
-    bird.userData.baseY = bird.position.y;
-  });
-  birds.forEach((bird) => root.add(bird));
-
   const resize = () => {
     const width = canvas.clientWidth || window.innerWidth;
     const height = canvas.clientHeight || window.innerHeight;
@@ -550,10 +558,8 @@ function initScene() {
     camera.updateProjectionMatrix();
   };
 
-  const clock = new THREE.Clock();
   const lookTarget = new THREE.Vector3();
   const animate = () => {
-    const elapsed = clock.getElapsedTime();
     const mobile = window.matchMedia("(max-width: 860px)").matches;
     const viewportWidth = window.innerWidth || canvas.clientWidth || 0;
     const viewportHeight = window.innerHeight || canvas.clientHeight || 0;
@@ -594,17 +600,6 @@ function initScene() {
     camera.position.z = (mobile ? (compactMobile ? 11.8 : 11.25) : 10.9) - passEase * (mobile ? (compactMobile ? 2.25 : 2.65) : 3.05);
     lookTarget.set(0.12, mobile ? (compactMobile ? -0.36 : -0.25) + passEase * (compactMobile ? 0.04 : 0.08) : -0.18 + passEase * 0.14, -0.2);
     camera.lookAt(lookTarget);
-
-    birds.forEach((bird, index) => {
-      const direction = index === 1 ? -1 : 1;
-      const layerShift = (storyProgress - 0.5) * (index === 1 ? -0.48 : 0.34);
-      const birdBaseX = compactMobile ? [-2.22, 2.35, -1.18][index] : [-3.12, 3.35, -2.18][index];
-      const birdBaseY = compactMobile ? [2.28, 2.68, 0.92][index] : [2.34, 2.78, 0.72][index];
-      bird.position.x = birdBaseX + (compactMobile ? layerShift * 0.28 : layerShift) + Math.sin(elapsed * 0.5 + index) * 0.018 * direction;
-      bird.position.y = birdBaseY + Math.cos(elapsed * 0.75 + index) * 0.014;
-      bird.rotation.z = Math.sin(elapsed * 1.1 + index) * 0.08;
-      bird.visible = revealEase > 0.08;
-    });
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
