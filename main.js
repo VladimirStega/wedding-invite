@@ -34,6 +34,7 @@ let touchCurrentY = 0;
 let touchStartScroll = 0;
 let touchActive = false;
 let countdownDocked = false;
+let mobileSnapIndex = 0;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -183,6 +184,7 @@ function snapToIndex(index) {
 
   const points = getSnapPoints();
   const targetIndex = clamp(index, 0, points.length - 1);
+  mobileSnapIndex = targetIndex;
   const top = points[targetIndex];
   const startTop = mobileVirtualScroll;
   const distance = top - startTop;
@@ -218,7 +220,7 @@ function snapToIndex(index) {
 
 function snapByDirection(direction, fromScroll = mobileVirtualScroll) {
   const points = getSnapPoints();
-  const nearestIndex = getNearestSnapIndex(points, fromScroll);
+  const nearestIndex = snapInProgress ? mobileSnapIndex : getNearestSnapIndex(points, fromScroll);
   const targetIndex = direction > 0 ? nearestIndex + 1 : nearestIndex - 1;
   snapToIndex(targetIndex);
 }
@@ -229,7 +231,9 @@ function settleToNearestSnap() {
   }
 
   const points = getSnapPoints();
-  snapToIndex(getNearestSnapIndex(points, mobileVirtualScroll));
+  const nearestIndex = getNearestSnapIndex(points, mobileVirtualScroll);
+  mobileSnapIndex = nearestIndex;
+  snapToIndex(nearestIndex);
 }
 
 function scheduleSnapSettle() {
@@ -243,7 +247,12 @@ function scheduleSnapSettle() {
 
 function canScrollCard(target, deltaY) {
   const card = target.closest?.(".story-card");
-  if (!card || card.scrollHeight <= card.clientHeight + 1) {
+  if (!card) {
+    return false;
+  }
+
+  const overflowY = window.getComputedStyle(card).overflowY;
+  if (!["auto", "scroll"].includes(overflowY) || card.scrollHeight <= card.clientHeight + 1) {
     return false;
   }
 

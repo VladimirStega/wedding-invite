@@ -319,14 +319,14 @@ h1 {
 }
 
 .story-card--left {
-  right: calc(50% + clamp(42px, 6vw, 110px));
+  right: calc(50% + clamp(120px, 12vw, 220px));
   left: auto;
   --hidden-x: -72vw;
 }
 
 .story-card--right {
   right: auto;
-  left: calc(50% + clamp(42px, 6vw, 110px));
+  left: calc(50% + clamp(120px, 12vw, 220px));
   --hidden-x: 72vw;
 }
 
@@ -684,9 +684,9 @@ h1 {
 
   .story-card {
     top: auto;
-    right: 16px;
+    right: clamp(24px, 7vw, 44px);
     bottom: 50%;
-    left: 16px;
+    left: clamp(24px, 7vw, 44px);
     width: auto;
     height: min(61svh, 520px);
     max-height: 61svh;
@@ -751,8 +751,8 @@ h1 {
   }
 
   .quote-card {
-    right: 16px;
-    left: 16px;
+    right: clamp(22px, 6vw, 40px);
+    left: clamp(22px, 6vw, 40px);
     width: auto;
     height: min(62svh, 540px);
     transform:
@@ -772,8 +772,8 @@ h1 {
   }
 
   .portal-finale {
-    right: 16px;
-    left: 16px;
+    right: clamp(18px, 5vw, 32px);
+    left: clamp(18px, 5vw, 32px);
     display: grid;
     place-items: center;
     transform:
@@ -929,8 +929,8 @@ h1 {
   }
 
   .story-card {
-    right: 12px;
-    left: 12px;
+    right: clamp(22px, 7vw, 34px);
+    left: clamp(22px, 7vw, 34px);
     height: min(66svh, 500px);
     max-height: 66svh;
     padding: clamp(16px, 4.2vw, 22px);
