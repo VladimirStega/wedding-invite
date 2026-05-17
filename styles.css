@@ -255,6 +255,10 @@ h1 {
   transform-style: preserve-3d;
 }
 
+.background-lines {
+  display: none;
+}
+
 .three-scene {
   position: absolute;
   inset: 0;
@@ -281,9 +285,11 @@ h1 {
 .story-card {
   position: absolute;
   top: 50%;
+  right: auto;
+  left: 50%;
   z-index: 5;
   display: flex;
-  width: min(740px, calc(100vw - 38px));
+  width: min(clamp(520px, 43vw, 700px), calc(100vw - 128px));
   height: min(80svh, 650px);
   max-height: min(82svh, 730px);
   overflow: hidden;
@@ -297,7 +303,7 @@ h1 {
   opacity: var(--card-opacity, 0);
   text-align: center;
   transform:
-    translate3d(var(--card-x, 0), calc(-50% + var(--card-y, 0px)), var(--card-z, -1800px))
+    translate3d(calc(-50% + var(--card-offset, 0px) + var(--card-x, 0)), calc(-50% + var(--card-y, 0px)), var(--card-z, -1800px))
     scale(var(--card-scale, 0.96));
   transform-style: preserve-3d;
   transform-origin: center center;
@@ -315,19 +321,17 @@ h1 {
 }
 
 .story-card--left {
-  right: calc(50% + clamp(120px, 12vw, 220px));
-  left: auto;
+  --card-offset: clamp(-140px, -8vw, -72px);
   --hidden-x: -72vw;
 }
 
 .story-card--right {
-  right: auto;
-  left: calc(50% + clamp(120px, 12vw, 220px));
+  --card-offset: clamp(72px, 8vw, 140px);
   --hidden-x: 72vw;
 }
 
 .story-card--wide {
-  width: min(780px, calc(100vw - 38px));
+  width: min(clamp(600px, 52vw, 840px), calc(100vw - 128px));
 }
 
 .card-kicker {
@@ -563,7 +567,7 @@ h1 {
   .story-card {
     right: auto;
     left: 50%;
-    width: min(680px, calc(100vw - 80px));
+    width: min(clamp(500px, 62vw, 640px), calc(100vw - 128px));
     height: min(76svh, 620px);
     max-height: 76svh;
     padding: clamp(24px, 3.2vw, 38px);
@@ -574,15 +578,15 @@ h1 {
   }
 
   .story-card--left {
-    --tablet-card-offset: clamp(-104px, -9vw, -72px);
+    --tablet-card-offset: clamp(-82px, -7vw, -54px);
   }
 
   .story-card--right {
-    --tablet-card-offset: clamp(72px, 9vw, 104px);
+    --tablet-card-offset: clamp(54px, 7vw, 82px);
   }
 
   .story-card--wide {
-    width: min(720px, calc(100vw - 64px));
+    width: min(clamp(560px, 72vw, 700px), calc(100vw - 128px));
   }
 
   .story-card h2 {

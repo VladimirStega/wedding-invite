@@ -180,35 +180,47 @@ function getNearestSnapIndex(points, scrollY = window.scrollY) {
 }
 
 function snapToIndex(index) {
-  if (!isMobileLayout()) {
-    return;
-  }
-
+  const mobile = isMobileLayout();
   const points = getSnapPoints();
   const targetIndex = clamp(index, 0, points.length - 1);
   mobileSnapIndex = targetIndex;
   const top = points[targetIndex];
-  const startTop = mobileVirtualScroll;
+  const startTop = mobile ? mobileVirtualScroll : window.scrollY;
   const distance = top - startTop;
-  const duration = 1600;
+  const duration = mobile ? 1600 : 1100;
   const startedAt = performance.now();
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
   lastSnapCompletedAt = startedAt;
 
   if (Math.abs(distance) < 2) {
     snapInProgress = false;
-    mobileVirtualScroll = top;
+    if (mobile) {
+      mobileVirtualScroll = top;
+    } else {
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, top);
+      document.documentElement.style.scrollBehavior = previousScrollBehavior;
+    }
     updateStory();
     return;
   }
 
   snapInProgress = true;
+  if (!mobile) {
+    document.documentElement.style.scrollBehavior = "auto";
+  }
   window.cancelAnimationFrame(snapAnimation);
   window.clearTimeout(snapTimer);
 
   const animateSnap = (now) => {
     const progress = clamp((now - startedAt) / duration, 0, 1);
     const eased = snapEase(progress);
-    mobileVirtualScroll = startTop + distance * eased;
+    const nextTop = startTop + distance * eased;
+    if (mobile) {
+      mobileVirtualScroll = nextTop;
+    } else {
+      window.scrollTo(0, nextTop);
+    }
     updateStory();
 
     if (progress < 1) {
@@ -216,7 +228,12 @@ function snapToIndex(index) {
       return;
     }
 
-    mobileVirtualScroll = top;
+    if (mobile) {
+      mobileVirtualScroll = top;
+    } else {
+      window.scrollTo(0, top);
+      document.documentElement.style.scrollBehavior = previousScrollBehavior;
+    }
     updateStory();
     snapInProgress = false;
     lastSnapCompletedAt = performance.now();
@@ -231,8 +248,10 @@ function snapByDirection(direction) {
   }
 
   const points = getSnapPoints();
-  mobileSnapIndex = clamp(mobileSnapIndex, 0, points.length - 1);
-  const targetIndex = direction > 0 ? mobileSnapIndex + 1 : mobileSnapIndex - 1;
+  const currentIndex = isMobileLayout()
+    ? clamp(mobileSnapIndex, 0, points.length - 1)
+    : getNearestSnapIndex(points, window.scrollY);
+  const targetIndex = direction > 0 ? currentIndex + 1 : currentIndex - 1;
   snapToIndex(targetIndex);
 }
 
@@ -282,7 +301,7 @@ function initMobileSnap() {
   mobileSnapReady = true;
 
   window.addEventListener("wheel", (event) => {
-    if (!isMobileLayout() || Math.abs(event.deltaY) < 8) {
+    if (event.ctrlKey || Math.abs(event.deltaY) < 8) {
       return;
     }
 
