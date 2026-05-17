@@ -241,10 +241,10 @@ h1 {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("./assets/bg-rus-landscape-v4-2x.png");
+  background-image: url("./assets/bg-rus-landscape-v5.png");
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-size: max(100vw, 150vh) auto;
+  background-size: max(100vw, 178vh) auto;
   opacity: 0.68;
   filter: saturate(1);
   -webkit-mask-image: linear-gradient(to bottom, #000 0 90%, transparent 100%);
