@@ -140,7 +140,6 @@ function isMobileLayout() {
 function getSnapPoints() {
   const mobile = isMobileLayout();
   const viewportHeight = getStableViewportHeight(mobile);
-  const scrollable = Math.max(1, story.offsetHeight - viewportHeight);
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const cardsEnd = mobile ? 0.78 : 0.74;
   const finalStart = mobile ? 0.94 : 0.91;
@@ -148,16 +147,18 @@ function getSnapPoints() {
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
-  const storyTop = story.offsetTop;
+  const introScrollLength = viewportHeight * (mobile ? 1.45 : 1.25);
+  const storyStart = introScrollLength;
+  const scrollable = Math.max(1, maxScroll - storyStart);
   const points = [0];
 
   cards.forEach((_, index) => {
     const cardTravel = index * cardGap + frameOffset;
     const cardProgress = clamp(cardTravel / cardTravelLength, 0, 1);
-    points.push(storyTop + cardsEnd * scrollable * cardProgress);
+    points.push(storyStart + cardsEnd * scrollable * cardProgress);
   });
 
-  points.push(storyTop + finalSnap * scrollable);
+  points.push(storyStart + finalSnap * scrollable);
 
   return [...new Set(points
     .map((point) => Math.round(clamp(point, 0, maxScroll)))
@@ -373,7 +374,7 @@ function initMobileSnap() {
 function updateStory() {
   const mobile = window.matchMedia("(max-width: 860px)").matches;
   const viewportHeight = getStableViewportHeight(mobile);
-  const scrollable = Math.max(1, story.offsetHeight - viewportHeight);
+  const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   const cardsEnd = mobile ? 0.78 : 0.74;
   const archStart = mobile ? 0.82 : 0.78;
   const passStart = mobile ? 0.89 : 0.85;
@@ -381,8 +382,9 @@ function updateStory() {
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
-  const oneCardScrollLength = (cardsEnd * scrollable * cardGap) / cardTravelLength;
-  const introScrollLength = oneCardScrollLength;
+  const introScrollLength = viewportHeight * (mobile ? 1.45 : 1.25);
+  const storyStart = introScrollLength;
+  const scrollable = Math.max(1, maxScroll - storyStart);
   if (mobile) {
     if (!mobileVirtualReady) {
       mobileVirtualScroll = 0;
@@ -401,7 +403,7 @@ function updateStory() {
   introTargetProgress = clamp(effectiveScroll / introScrollLength, 0, 1);
   introRenderProgress += (introTargetProgress - introRenderProgress) * 1;
   const introProgress = introRenderProgress;
-  storyProgress = clamp((effectiveScroll - story.offsetTop) / scrollable, 0, 1);
+  storyProgress = clamp((effectiveScroll - storyStart) / scrollable, 0, 1);
   const introStoryExit = smoothStep(rangeProgress(storyProgress, 0.008, 0.035));
   const introVanish = Math.max(smoothStep(rangeProgress(introProgress, 0.5, 0.84)), introStoryExit);
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
