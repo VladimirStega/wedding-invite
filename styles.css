@@ -116,12 +116,13 @@ h2,
 }
 
 h1 {
-  max-width: 1320px;
+  width: min(100%, 1320px);
   margin: 20px auto;
-  font-size: clamp(62px, 10.8vw, 164px);
+  font-size: clamp(46px, 10.8vw, 164px);
   font-weight: 400;
   line-height: 0.84;
   letter-spacing: 0;
+  text-wrap: balance;
   text-shadow:
     0.012em 0 currentColor,
     -0.006em 0 currentColor,
@@ -533,6 +534,20 @@ h1 span {
 }
 
 @media (min-width: 861px) and (max-width: 1180px) {
+  .intro__text {
+    padding-right: clamp(24px, 7vw, 72px);
+    padding-left: clamp(24px, 7vw, 72px);
+  }
+
+  h1 {
+    font-size: clamp(52px, 9.4vw, 112px);
+    line-height: 0.88;
+  }
+
+  .date-line {
+    font-size: clamp(18px, 2.4vw, 28px);
+  }
+
   .countdown strong {
     font-size: clamp(42px, 5.8vw, 62px);
   }
@@ -578,7 +593,8 @@ h1 span {
   }
 
   .quote-card p {
-    font-size: clamp(50px, 7vw, 86px);
+    font-size: clamp(42px, 5.5vw, 72px);
+    line-height: 1.08;
   }
 
   .schedule-card {
@@ -599,6 +615,24 @@ h1 span {
 @media (max-width: 860px) {
   .story-scroll {
     height: 2300vh;
+  }
+
+  .intro__text {
+    padding-right: clamp(16px, 5vw, 36px);
+    padding-left: clamp(16px, 5vw, 36px);
+    transform:
+      translate3d(0, calc(var(--intro-y, 0) - 5vh), 0)
+      scale(var(--intro-scale, 1));
+  }
+
+  h1 {
+    font-size: clamp(42px, 14vw, 76px);
+    line-height: 0.9;
+  }
+
+  .date-line {
+    font-size: clamp(16px, 5vw, 24px);
+    line-height: 1.35;
   }
 
   .countdown {
@@ -688,6 +722,11 @@ h1 span {
       scale(var(--card-scale, 0.96));
   }
 
+  .quote-card p {
+    font-size: clamp(36px, 10vw, 58px);
+    line-height: 1.08;
+  }
+
   .story-card--left,
   .story-card--right {
     --hidden-x: 0px;
@@ -706,10 +745,10 @@ h1 span {
   .schedule {
     width: 100%;
     margin-top: clamp(18px, 4vh, 26px);
-    --schedule-time-column: clamp(66px, 19vw, 82px);
-    --schedule-gap: clamp(24px, 8vw, 34px);
+    --schedule-time-column: clamp(58px, 18vw, 82px);
+    --schedule-gap: clamp(20px, 7vw, 34px);
     --schedule-dot-size: 15px;
-    --schedule-time-size: clamp(28px, 8vw, 34px);
+    --schedule-time-size: clamp(25px, 7.2vw, 34px);
   }
 
   .schedule li {
@@ -721,19 +760,37 @@ h1 span {
   }
 
   .schedule h3 {
-    font-size: clamp(19px, 5.7vw, 25px);
+    font-size: clamp(18px, 5.2vw, 25px);
     line-height: 1;
     letter-spacing: 0.04em;
   }
 
   .schedule p {
     margin-top: 6px;
-    font-size: clamp(15px, 4.25vw, 19px);
+    font-size: clamp(14px, 3.9vw, 19px);
     line-height: 1.22;
   }
 }
 
 @media (max-width: 460px) {
+  .intro__text {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  h1 {
+    font-size: clamp(38px, 13.2vw, 56px);
+  }
+
+  .eyebrow {
+    font-size: clamp(12px, 3.6vw, 15px);
+  }
+
+  .date-line {
+    font-size: clamp(15px, 4.45vw, 19px);
+    letter-spacing: 0.1em;
+  }
+
   .countdown__grid {
     gap: clamp(3px, 1.5vw, 6px);
   }
@@ -757,15 +814,141 @@ h1 span {
     padding: 0 clamp(22px, 8vw, 34px);
     font-size: clamp(13px, 4vw, 16px);
   }
+
+  .story-card {
+    right: 12px;
+    left: 12px;
+    height: min(64svh, 500px);
+    max-height: 64svh;
+    padding: clamp(16px, 4.2vw, 22px);
+  }
+
+  .story-card h2 {
+    font-size: clamp(27px, 7.6vw, 34px);
+  }
+
+  .story-card p {
+    margin-top: clamp(18px, 3vh, 24px);
+    font-size: clamp(17px, 4.7vw, 20px);
+    line-height: 1.42;
+  }
+
+  .schedule-card {
+    height: min(66svh, 500px);
+    max-height: 66svh;
+  }
+
+  .schedule-card h2 {
+    font-size: clamp(27px, 7.4vw, 34px);
+  }
+
+  .schedule {
+    margin-top: clamp(14px, 2.8vh, 20px);
+    --schedule-time-column: clamp(52px, 16vw, 64px);
+    --schedule-gap: clamp(16px, 5.6vw, 24px);
+    --schedule-dot-size: 13px;
+    --schedule-time-size: clamp(22px, 6.4vw, 28px);
+  }
+
+  .schedule li {
+    padding-bottom: clamp(10px, 2.3vh, 15px);
+  }
+
+  .schedule h3 {
+    font-size: clamp(16px, 4.5vw, 20px);
+    line-height: 1.02;
+  }
+
+  .schedule p {
+    font-size: clamp(13px, 3.6vw, 16px);
+    line-height: 1.2;
+  }
+
+  .palette {
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .palette i {
+    width: clamp(28px, 8vw, 34px);
+    height: clamp(28px, 8vw, 34px);
+  }
+
+  .route-card {
+    height: min(68svh, 520px);
+    max-height: 68svh;
+  }
+
+  .route-card h2 {
+    font-size: clamp(27px, 7.4vw, 34px);
+  }
+
+  .route-card > p {
+    margin-top: clamp(12px, 2.4vh, 18px);
+    font-size: clamp(16px, 4.2vw, 19px);
+    line-height: 1.28;
+  }
+
+  .route-card .map-placeholder {
+    height: clamp(150px, 26svh, 220px);
+    margin-top: clamp(12px, 2.4vh, 18px);
+  }
+
+  .route-card .map-address {
+    font-size: clamp(14px, 3.8vw, 18px);
+    line-height: 1.2;
+  }
+
+  .quote-card {
+    height: min(58svh, 470px);
+  }
+
+  .quote-card p {
+    font-size: clamp(32px, 9.2vw, 44px);
+    line-height: 1.1;
+  }
 }
 
 @media (max-width: 360px) {
+  h1 {
+    font-size: clamp(34px, 12.2vw, 44px);
+  }
+
+  .date-line {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+  }
+
   .countdown strong {
     font-size: clamp(27px, 9.4vw, 34px);
   }
 
   .countdown span {
     font-size: 7px;
+  }
+
+  .story-card {
+    height: min(66svh, 470px);
+    max-height: 66svh;
+    padding: 14px;
+  }
+
+  .story-card h2,
+  .schedule-card h2,
+  .route-card h2 {
+    font-size: clamp(24px, 7vw, 29px);
+  }
+
+  .story-card p {
+    font-size: 15px;
+  }
+
+  .quote-card p {
+    font-size: clamp(28px, 8.4vw, 34px);
+  }
+
+  .route-card .map-placeholder {
+    height: clamp(132px, 24svh, 180px);
   }
 }
 
