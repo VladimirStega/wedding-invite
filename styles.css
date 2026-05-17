@@ -118,9 +118,9 @@ h2,
 h1 {
   width: min(100%, 1320px);
   margin: 20px auto;
-  font-size: clamp(46px, 10.8vw, 164px);
+  font-size: clamp(40px, 10.2vw, 164px);
   font-weight: 400;
-  line-height: 0.84;
+  line-height: 0.82;
   letter-spacing: 0;
   text-wrap: balance;
   text-shadow:
@@ -129,7 +129,13 @@ h1 {
     0 0.006em currentColor;
 }
 
-h1 span {
+.name-line {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.ampersand {
   color: var(--red);
 }
 
@@ -284,7 +290,7 @@ h1 span {
   width: min(740px, calc(100vw - 38px));
   height: min(80svh, 650px);
   max-height: min(82svh, 730px);
-  overflow: auto;
+  overflow: hidden;
   padding: clamp(28px, 3.8vw, 46px);
   flex-direction: column;
   justify-content: center;
@@ -346,6 +352,7 @@ h1 span {
   color: var(--ink);
   font-size: clamp(21px, 1.95vw, 26px);
   line-height: 1.62;
+  overflow-wrap: anywhere;
 }
 
 .quote-card {
@@ -368,6 +375,7 @@ h1 span {
 
 .quote-card p {
   width: 100%;
+  max-width: 1600px;
   margin: 0;
   color: #c40012;
   font-family: "Great Vibes", "Monomakh", Georgia, "Times New Roman", serif;
@@ -540,8 +548,8 @@ h1 span {
   }
 
   h1 {
-    font-size: clamp(52px, 9.4vw, 112px);
-    line-height: 0.88;
+    font-size: clamp(44px, 8.6vw, 96px);
+    line-height: 0.86;
   }
 
   .date-line {
@@ -556,9 +564,10 @@ h1 span {
     right: auto;
     left: 50%;
     width: min(680px, calc(100vw - 80px));
-    height: min(74svh, 610px);
-    max-height: 74svh;
+    height: min(76svh, 620px);
+    max-height: 76svh;
     padding: clamp(24px, 3.2vw, 38px);
+    overflow: hidden;
     transform:
       translate3d(calc(-50% + var(--tablet-card-offset, 0px) + var(--card-x, 0px)), calc(-50% + var(--card-y, 0px)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
@@ -587,28 +596,52 @@ h1 span {
   }
 
   .quote-card {
-    width: calc(100vw - 64px);
-    height: min(72svh, 620px);
+    width: calc(100vw - 48px);
+    height: min(76svh, 640px);
     --tablet-card-offset: 0px;
   }
 
   .quote-card p {
-    font-size: clamp(42px, 5.5vw, 72px);
-    line-height: 1.08;
+    font-size: clamp(38px, 4.9vw, 62px);
+    line-height: 1.12;
+    text-wrap: pretty;
   }
 
   .schedule-card {
-    height: min(76svh, 640px);
+    height: min(78svh, 650px);
+  }
+
+  .schedule {
+    --schedule-time-column: clamp(76px, 9vw, 98px);
+    --schedule-gap: clamp(28px, 4vw, 40px);
+    --schedule-time-size: clamp(28px, 3.6vw, 34px);
+  }
+
+  .schedule h3 {
+    font-size: clamp(19px, 2.25vw, 22px);
+  }
+
+  .schedule p {
+    font-size: clamp(17px, 1.9vw, 20px);
   }
 
   .route-card {
-    height: min(76svh, 650px);
+    height: min(78svh, 650px);
     justify-content: flex-start;
   }
 
   .route-card .map-placeholder {
     min-height: 0;
     height: clamp(210px, 30svh, 300px);
+  }
+
+  .palette {
+    margin-top: clamp(18px, 2.8vh, 24px);
+  }
+
+  .palette i {
+    width: clamp(30px, 4vw, 36px);
+    height: clamp(30px, 4vw, 36px);
   }
 }
 
@@ -626,8 +659,8 @@ h1 span {
   }
 
   h1 {
-    font-size: clamp(42px, 14vw, 76px);
-    line-height: 0.9;
+    font-size: clamp(36px, 12.2vw, 68px);
+    line-height: 0.86;
   }
 
   .date-line {
@@ -653,6 +686,7 @@ h1 span {
     width: auto;
     height: min(61svh, 520px);
     max-height: 61svh;
+    overflow: hidden;
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
@@ -716,15 +750,16 @@ h1 span {
     right: 16px;
     left: 16px;
     width: auto;
-    height: min(64svh, 560px);
+    height: min(62svh, 540px);
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
       scale(var(--card-scale, 0.96));
   }
 
   .quote-card p {
-    font-size: clamp(36px, 10vw, 58px);
-    line-height: 1.08;
+    font-size: clamp(31px, 8.4vw, 50px);
+    line-height: 1.14;
+    text-wrap: pretty;
   }
 
   .story-card--left,
@@ -772,6 +807,73 @@ h1 span {
   }
 }
 
+@media (max-height: 760px) and (max-width: 860px) {
+  .intro__text {
+    transform:
+      translate3d(0, calc(var(--intro-y, 0) - 3vh), 0)
+      scale(var(--intro-scale, 1));
+  }
+
+  .countdown {
+    margin-top: clamp(18px, 2.6vh, 30px);
+  }
+
+  .story-card {
+    height: min(70svh, 500px);
+    max-height: 70svh;
+    padding-top: clamp(14px, 3vh, 20px);
+    padding-bottom: clamp(14px, 3vh, 20px);
+  }
+
+  .story-card h2 {
+    font-size: clamp(25px, 7.2vw, 34px);
+  }
+
+  .story-card p {
+    margin-top: clamp(12px, 2.2vh, 18px);
+    font-size: clamp(15px, 4.1vw, 18px);
+    line-height: 1.28;
+  }
+
+  .schedule-card {
+    height: min(74svh, 520px);
+    max-height: 74svh;
+  }
+
+  .schedule {
+    margin-top: clamp(10px, 2vh, 16px);
+  }
+
+  .schedule li {
+    padding-bottom: clamp(8px, 1.8vh, 12px);
+  }
+
+  .schedule h3 {
+    font-size: clamp(15px, 4.2vw, 18px);
+  }
+
+  .schedule p {
+    font-size: clamp(12px, 3.3vw, 15px);
+  }
+
+  .route-card {
+    height: min(76svh, 540px);
+    max-height: 76svh;
+  }
+
+  .route-card .map-placeholder {
+    height: clamp(120px, 22svh, 190px);
+  }
+
+  .route-card .map-address {
+    margin-top: 8px;
+  }
+
+  .quote-card {
+    height: min(56svh, 420px);
+  }
+}
+
 @media (max-width: 460px) {
   .intro__text {
     padding-right: 14px;
@@ -779,7 +881,7 @@ h1 span {
   }
 
   h1 {
-    font-size: clamp(38px, 13.2vw, 56px);
+    font-size: clamp(30px, 10.6vw, 47px);
   }
 
   .eyebrow {
@@ -787,8 +889,8 @@ h1 span {
   }
 
   .date-line {
-    font-size: clamp(15px, 4.45vw, 19px);
-    letter-spacing: 0.1em;
+    font-size: clamp(13px, 3.75vw, 17px);
+    letter-spacing: 0.07em;
   }
 
   .countdown__grid {
@@ -818,8 +920,8 @@ h1 span {
   .story-card {
     right: 12px;
     left: 12px;
-    height: min(64svh, 500px);
-    max-height: 64svh;
+    height: min(66svh, 500px);
+    max-height: 66svh;
     padding: clamp(16px, 4.2vw, 22px);
   }
 
@@ -900,18 +1002,18 @@ h1 span {
   }
 
   .quote-card {
-    height: min(58svh, 470px);
+    height: min(54svh, 430px);
   }
 
   .quote-card p {
-    font-size: clamp(32px, 9.2vw, 44px);
-    line-height: 1.1;
+    font-size: clamp(26px, 7.3vw, 36px);
+    line-height: 1.16;
   }
 }
 
 @media (max-width: 360px) {
   h1 {
-    font-size: clamp(34px, 12.2vw, 44px);
+    font-size: clamp(28px, 9.6vw, 35px);
   }
 
   .date-line {
