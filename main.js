@@ -406,7 +406,7 @@ function updateStory() {
     const isActive = index === activeCardIndex && activeCardDistance < 1.08;
     const opacity = isActive ? cardOpacity(localTravel) * (storyProgress < archStart && cardsVisible ? 1 : 0) : 0;
     const horizontal = 0;
-    const vertical = mobile ? 0 : 0;
+    const vertical = mobile ? (window.innerWidth <= 460 ? 6 : 5) : 0;
     const scale = 1;
 
     card.style.setProperty("--card-opacity", opacity.toFixed(3));

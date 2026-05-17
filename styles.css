@@ -990,8 +990,8 @@ h1 {
   }
 
   .route-card {
-    height: min(68svh, 520px);
-    max-height: 68svh;
+    height: min(62svh, 500px);
+    max-height: 62svh;
   }
 
   .route-card h2 {
@@ -999,14 +999,14 @@ h1 {
   }
 
   .route-card > p {
-    margin-top: clamp(12px, 2.4vh, 18px);
-    font-size: clamp(16px, 4.2vw, 19px);
-    line-height: 1.28;
+    margin-top: clamp(10px, 2vh, 16px);
+    font-size: clamp(15px, 4vw, 18px);
+    line-height: 1.24;
   }
 
   .route-card .map-placeholder {
-    height: clamp(150px, 26svh, 220px);
-    margin-top: clamp(12px, 2.4vh, 18px);
+    height: clamp(138px, 23svh, 205px);
+    margin-top: clamp(10px, 2vh, 16px);
   }
 
   .route-card .map-address {
