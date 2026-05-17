@@ -4,6 +4,7 @@ const weddingDate = new Date("2026-08-15T15:30:00+03:00");
 const countdown = document.querySelector("#countdown");
 const countdownPanel = document.querySelector(".countdown");
 const story = document.querySelector("#story");
+const siteBackground = document.querySelector(".site-background");
 const intro = document.querySelector(".intro");
 const introText = document.querySelector(".intro__text");
 const portalFinale = document.querySelector("#portalFinale");
@@ -378,11 +379,7 @@ function updateStory() {
   passProgress = clamp((storyProgress - passStart) / (finalStart - passStart), 0, 1);
   finaleProgress = clamp((storyProgress - finalStart) / (1 - finalStart), 0, 1);
 
-  story.style.setProperty("--bg-pan", "0vw");
-  story.style.setProperty("--bg-lift", "0vh");
-  story.style.setProperty("--bg-tilt", "0deg");
-  story.style.setProperty("--bg-pitch", "0deg");
-  story.style.setProperty("--bg-scale", (1.03 + storyProgress * (mobile ? 0.07 : 0.13)).toFixed(3));
+  siteBackground.style.setProperty("--site-bg-scale", (1.04 + storyProgress * (mobile ? 0.08 : 0.12)).toFixed(3));
   canvas.style.setProperty("--scene-opacity", smoothStep(archProgress).toFixed(3));
   const cardsVisible = introProgress > 0.96;
   let activeCardIndex = -1;

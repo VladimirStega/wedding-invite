@@ -28,7 +28,25 @@ body {
   font-family: "Monomakh", Georgia, "Times New Roman", serif;
 }
 
+.site-background {
+  position: fixed;
+  inset: -8vh -8vw;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("./assets/bg-rus-landscape-v5.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  opacity: 0.68;
+  filter: saturate(1);
+  transform: scale(var(--site-bg-scale, 1.04));
+  transform-origin: center bottom;
+  transition: transform 110ms linear;
+}
+
 .invite {
+  position: relative;
+  z-index: 1;
   overflow: clip;
 }
 
@@ -66,7 +84,7 @@ body {
   opacity: var(--intro-opacity, 1);
   animation: introTextAppear 900ms ease 360ms both;
   transform:
-    translate3d(0, calc(var(--intro-y, 0) - 7vh), 0)
+    translate3d(0, calc(var(--intro-y, 0) - 11vh), 0)
     scale(var(--intro-scale, 1));
   transition: opacity 120ms linear, transform 120ms linear;
   backface-visibility: hidden;
@@ -238,25 +256,7 @@ h1 {
 }
 
 .background-lines {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image: url("./assets/bg-rus-landscape-v5.png");
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: max(100vw, 178vh) auto;
-  opacity: 0.68;
-  filter: saturate(1);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0 90%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0 90%, transparent 100%);
-  transform:
-    perspective(900px)
-    translate3d(var(--bg-pan, 0), var(--bg-lift, 0), 0)
-    rotateY(var(--bg-tilt, 0deg))
-    rotateX(var(--bg-pitch, 0deg))
-    scale(var(--bg-scale, 1));
-  transform-origin: center bottom;
-  transition: transform 110ms linear;
+  display: none;
 }
 
 .three-scene {
