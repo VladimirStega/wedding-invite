@@ -571,11 +571,11 @@ h1 {
   .story-card {
     right: auto;
     left: 50%;
-    --card-side-offset: clamp(210px, 25vw, 280px);
-    width: clamp(340px, 42vw, 460px);
-    max-width: calc(100vw - (var(--card-side-offset) * 2) - 32px);
-    height: clamp(400px, 72svh, 600px);
-    max-height: calc(100svh - 140px);
+    --card-side-offset: 0px;
+    width: min(clamp(500px, 62vw, 640px), calc(100vw - 128px));
+    max-width: calc(100vw - 128px);
+    height: min(76svh, 620px);
+    max-height: 76svh;
     padding: clamp(24px, 3.2vw, 38px);
     overflow: hidden;
     transform:
@@ -584,16 +584,16 @@ h1 {
   }
 
   .story-card--left {
-    --tablet-card-offset: calc(-1 * var(--card-side-offset));
+    --tablet-card-offset: 0px;
   }
 
   .story-card--right {
-    --tablet-card-offset: var(--card-side-offset);
+    --tablet-card-offset: 0px;
   }
 
   .story-card--wide {
-    width: clamp(380px, 48vw, 520px);
-    max-width: calc(100vw - (var(--card-side-offset) * 2) - 32px);
+    width: min(clamp(560px, 72vw, 700px), calc(100vw - 128px));
+    max-width: calc(100vw - 128px);
   }
 
   .story-card h2 {
@@ -695,6 +695,7 @@ h1 {
     bottom: 50%;
     left: clamp(24px, 7vw, 44px);
     width: auto;
+    max-width: none;
     height: min(61svh, 520px);
     max-height: 61svh;
     overflow: hidden;
@@ -761,6 +762,7 @@ h1 {
     right: clamp(22px, 6vw, 40px);
     left: clamp(22px, 6vw, 40px);
     width: auto;
+    max-width: none;
     height: min(62svh, 540px);
     transform:
       translate3d(var(--card-x, 0), calc(50% + var(--card-y, 0vh)), var(--card-z, -1800px))
@@ -888,7 +890,7 @@ h1 {
   }
 
   .quote-card {
-    height: min(56svh, 420px);
+    height: min(62svh, 540px);
   }
 }
 
@@ -1022,7 +1024,7 @@ h1 {
   }
 
   .quote-card {
-    height: min(54svh, 430px);
+    height: min(62svh, 540px);
   }
 
   .quote-card p {

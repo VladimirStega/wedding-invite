@@ -145,7 +145,7 @@ function getSnapPoints() {
   const mobile = isMobileLayout();
   const viewportHeight = getStableViewportHeight(mobile);
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-  const cardsEnd = mobile ? 0.78 : 0.74;
+  const cardsEnd = mobile ? 0.76 : 0.74;
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
@@ -381,10 +381,10 @@ function updateStory() {
   const mobile = window.matchMedia("(max-width: 860px)").matches;
   const viewportHeight = getStableViewportHeight(mobile);
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-  const cardsEnd = mobile ? 0.78 : 0.74;
-  const archStart = mobile ? 0.82 : 0.78;
-  const passStart = mobile ? 0.89 : 0.85;
-  const finalStart = mobile ? 0.94 : 0.91;
+  const cardsEnd = mobile ? 0.76 : 0.74;
+  const archStart = mobile ? 0.78 : 0.78;
+  const passStart = mobile ? 0.84 : 0.85;
+  const finalStart = mobile ? 0.88 : 0.91;
   const cardGap = mobile ? 1.25 : 2.8;
   const frameOffset = 0.82;
   const cardTravelLength = (cards.length - 1) * cardGap + frameOffset + 1.05;
