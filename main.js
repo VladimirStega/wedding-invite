@@ -548,19 +548,27 @@ function initScene() {
   const animate = () => {
     const elapsed = clock.getElapsedTime();
     const mobile = window.matchMedia("(max-width: 860px)").matches;
+    const viewportWidth = window.innerWidth || canvas.clientWidth || 0;
+    const viewportHeight = window.innerHeight || canvas.clientHeight || 0;
+    const compactMobile = mobile && viewportWidth <= 460;
+    const shortMobile = mobile && viewportHeight <= 740;
     updateStory();
 
     const revealEase = smoothStep(archProgress);
     const passEase = smoothStep(passProgress);
     const finalEase = smoothStep(finaleProgress);
-    const sceneScale = (mobile ? 0.44 : 0.66) + revealEase * (mobile ? 0.055 : 0.12) + passEase * (mobile ? 0.08 : 0.2);
-    const meadowLift = (1 - revealEase) * -0.1 + passEase * 0.08;
+    const mobileBaseScale = compactMobile ? 0.38 : 0.44;
+    const mobileRevealScale = compactMobile ? 0.045 : 0.055;
+    const mobilePassScale = compactMobile ? 0.055 : 0.08;
+    const sceneScale = (mobile ? mobileBaseScale : 0.66) + revealEase * (mobile ? mobileRevealScale : 0.12) + passEase * (mobile ? mobilePassScale : 0.2);
+    const meadowLift = (1 - revealEase) * -0.1 + passEase * (compactMobile ? 0.02 : 0.08);
     const gateSpread = passEase * (mobile ? 0.12 : 0.92);
+    const mobileRootBaseY = compactMobile ? (shortMobile ? -0.56 : -0.5) : -0.34;
 
     root.rotation.y = 0;
     root.rotation.x = 0;
     root.position.x = 0;
-    root.position.y = (mobile ? -0.34 : -0.2) + (1 - revealEase) * 0.08 - passEase * (mobile ? 0.02 : 0.08) + finalEase * 0.03;
+    root.position.y = (mobile ? mobileRootBaseY : -0.2) + (1 - revealEase) * 0.08 - passEase * (mobile ? 0.01 : 0.08) + finalEase * (compactMobile ? -0.01 : 0.03);
     root.scale.setScalar(sceneScale);
 
     arch.rotation.y = 0;
@@ -572,19 +580,21 @@ function initScene() {
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
     meadow.position.x = 0.02;
-    meadow.position.y = -1.86 - meadowLift;
+    meadow.position.y = (compactMobile ? -1.72 : -1.86) - meadowLift;
 
     camera.position.x = 0;
-    camera.position.y = (mobile ? 0.48 : 0.7) + passEase * 0.12;
-    camera.position.z = (mobile ? 11.25 : 10.9) - passEase * (mobile ? 2.65 : 3.05);
-    lookTarget.set(0.12, mobile ? -0.25 + passEase * 0.08 : -0.18 + passEase * 0.14, -0.2);
+    camera.position.y = (mobile ? (compactMobile ? 0.38 : 0.48) : 0.7) + passEase * (compactMobile ? 0.07 : 0.12);
+    camera.position.z = (mobile ? (compactMobile ? 11.8 : 11.25) : 10.9) - passEase * (mobile ? (compactMobile ? 2.25 : 2.65) : 3.05);
+    lookTarget.set(0.12, mobile ? (compactMobile ? -0.36 : -0.25) + passEase * (compactMobile ? 0.04 : 0.08) : -0.18 + passEase * 0.14, -0.2);
     camera.lookAt(lookTarget);
 
     birds.forEach((bird, index) => {
       const direction = index === 1 ? -1 : 1;
       const layerShift = (storyProgress - 0.5) * (index === 1 ? -0.48 : 0.34);
-      bird.position.x = bird.userData.baseX + layerShift + Math.sin(elapsed * 0.5 + index) * 0.018 * direction;
-      bird.position.y = bird.userData.baseY + Math.cos(elapsed * 0.75 + index) * 0.014;
+      const birdBaseX = compactMobile ? [-1.45, 1.45, -1.18][index] : bird.userData.baseX;
+      const birdBaseY = compactMobile ? [1.78, 1.88, 0.92][index] : bird.userData.baseY;
+      bird.position.x = birdBaseX + (compactMobile ? layerShift * 0.28 : layerShift) + Math.sin(elapsed * 0.5 + index) * 0.018 * direction;
+      bird.position.y = birdBaseY + Math.cos(elapsed * 0.75 + index) * 0.014;
       bird.rotation.z = Math.sin(elapsed * 1.1 + index) * 0.08;
       bird.visible = revealEase > 0.08;
     });
