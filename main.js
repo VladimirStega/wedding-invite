@@ -401,7 +401,9 @@ function updateStory() {
   introTargetProgress = clamp(effectiveScroll / introScrollLength, 0, 1);
   introRenderProgress += (introTargetProgress - introRenderProgress) * 1;
   const introProgress = introRenderProgress;
-  const introVanish = smoothStep(rangeProgress(introProgress, 0.5, 0.84));
+  storyProgress = clamp((effectiveScroll - story.offsetTop) / scrollable, 0, 1);
+  const introStoryExit = smoothStep(rangeProgress(storyProgress, 0.008, 0.035));
+  const introVanish = Math.max(smoothStep(rangeProgress(introProgress, 0.5, 0.84)), introStoryExit);
   const introDepth = smoothStep(rangeProgress(introProgress, 0.2, 0.84));
   const introScale = 1 + introDepth * (mobile ? 1.45 : 2.15);
   const countdownDock = introProgress > 0.9 ? 1 : 0;
@@ -423,7 +425,6 @@ function updateStory() {
   countdownPanel.style.setProperty("--countdown-opacity", countdownOpacity.toFixed(3));
   countdownPanel.style.setProperty("--countdown-events", "none");
 
-  storyProgress = clamp((effectiveScroll - story.offsetTop) / scrollable, 0, 1);
   const cardProgress = clamp(storyProgress / cardsEnd, 0, 1);
   const rawTravel = cardProgress * cardTravelLength;
   const travel = rawTravel;
