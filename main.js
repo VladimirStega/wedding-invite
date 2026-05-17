@@ -529,6 +529,7 @@ function initScene() {
     createAssetPlane(birdTextures[2], 0.8, 0.76, -2.18, 0.72, -0.1),
   ];
   birds[1].scale.x = -1;
+  birds.forEach((bird) => setRenderOrder(bird, 4));
   birds.forEach((bird) => {
     bird.userData.baseX = bird.position.x;
     bird.userData.baseY = bird.position.y;
@@ -591,8 +592,8 @@ function initScene() {
     birds.forEach((bird, index) => {
       const direction = index === 1 ? -1 : 1;
       const layerShift = (storyProgress - 0.5) * (index === 1 ? -0.48 : 0.34);
-      const birdBaseX = compactMobile ? [-1.45, 1.45, -1.18][index] : bird.userData.baseX;
-      const birdBaseY = compactMobile ? [1.78, 1.88, 0.92][index] : bird.userData.baseY;
+      const birdBaseX = compactMobile ? [-1.45, 1.86, -1.18][index] : [-2.65, 2.9, -2.18][index];
+      const birdBaseY = compactMobile ? [1.78, 2.28, 0.92][index] : [1.82, 2.48, 0.72][index];
       bird.position.x = birdBaseX + (compactMobile ? layerShift * 0.28 : layerShift) + Math.sin(elapsed * 0.5 + index) * 0.018 * direction;
       bird.position.y = birdBaseY + Math.cos(elapsed * 0.75 + index) * 0.014;
       bird.rotation.z = Math.sin(elapsed * 1.1 + index) * 0.08;

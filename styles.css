@@ -397,7 +397,8 @@ h1 {
   --schedule-gap: 44px;
   --schedule-dot-size: 17px;
   --schedule-time-size: 34px;
-  --schedule-axis: calc(var(--schedule-time-column) + var(--schedule-gap) / 2);
+  --schedule-axis-offset: calc(var(--schedule-gap) / 2);
+  --schedule-axis: calc(var(--schedule-time-column) + var(--schedule-axis-offset));
 }
 
 .schedule::before {
@@ -434,11 +435,14 @@ h1 {
 }
 
 .schedule time {
+  position: relative;
+  z-index: 1;
   color: var(--red);
   font-size: var(--schedule-time-size);
   font-weight: 400;
   line-height: 1;
   text-align: right;
+  white-space: nowrap;
 }
 
 .schedule h3 {
@@ -780,10 +784,11 @@ h1 {
   .schedule {
     width: 100%;
     margin-top: clamp(18px, 4vh, 26px);
-    --schedule-time-column: clamp(58px, 18vw, 82px);
-    --schedule-gap: clamp(20px, 7vw, 34px);
+    --schedule-time-column: clamp(50px, 15vw, 70px);
+    --schedule-gap: clamp(32px, 9.5vw, 42px);
     --schedule-dot-size: 15px;
-    --schedule-time-size: clamp(25px, 7.2vw, 34px);
+    --schedule-time-size: clamp(19px, 5.8vw, 28px);
+    --schedule-axis-offset: calc(var(--schedule-gap) / 2);
   }
 
   .schedule li {
@@ -795,9 +800,9 @@ h1 {
   }
 
   .schedule h3 {
-    font-size: clamp(18px, 5.2vw, 25px);
+    font-size: clamp(16px, 4.6vw, 22px);
     line-height: 1;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
   }
 
   .schedule p {
@@ -842,6 +847,11 @@ h1 {
 
   .schedule {
     margin-top: clamp(10px, 2vh, 16px);
+    --schedule-time-column: clamp(48px, 14.5vw, 58px);
+    --schedule-gap: clamp(32px, 9vw, 40px);
+    --schedule-dot-size: 13px;
+    --schedule-time-size: clamp(18px, 5.2vw, 23px);
+    --schedule-axis-offset: calc(var(--schedule-gap) / 2);
   }
 
   .schedule li {
@@ -849,7 +859,8 @@ h1 {
   }
 
   .schedule h3 {
-    font-size: clamp(15px, 4.2vw, 18px);
+    font-size: clamp(14px, 3.9vw, 17px);
+    letter-spacing: 0.01em;
   }
 
   .schedule p {
@@ -946,10 +957,11 @@ h1 {
 
   .schedule {
     margin-top: clamp(14px, 2.8vh, 20px);
-    --schedule-time-column: clamp(52px, 16vw, 64px);
-    --schedule-gap: clamp(16px, 5.6vw, 24px);
+    --schedule-time-column: clamp(46px, 14vw, 54px);
+    --schedule-gap: clamp(34px, 10vw, 42px);
     --schedule-dot-size: 13px;
-    --schedule-time-size: clamp(22px, 6.4vw, 28px);
+    --schedule-time-size: clamp(17px, 4.9vw, 21px);
+    --schedule-axis-offset: calc(var(--schedule-gap) / 2);
   }
 
   .schedule li {
@@ -957,8 +969,9 @@ h1 {
   }
 
   .schedule h3 {
-    font-size: clamp(16px, 4.5vw, 20px);
+    font-size: clamp(14px, 3.95vw, 17px);
     line-height: 1.02;
+    letter-spacing: 0;
   }
 
   .schedule p {
