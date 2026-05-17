@@ -532,6 +532,70 @@ h1 span {
   box-shadow: 0 18px 42px rgba(174, 17, 27, 0.23);
 }
 
+@media (min-width: 861px) and (max-width: 1180px) {
+  .countdown strong {
+    font-size: clamp(42px, 5.8vw, 62px);
+  }
+
+  .story-card {
+    right: auto;
+    left: 50%;
+    width: min(680px, calc(100vw - 80px));
+    height: min(74svh, 610px);
+    max-height: 74svh;
+    padding: clamp(24px, 3.2vw, 38px);
+    transform:
+      translate3d(calc(-50% + var(--tablet-card-offset, 0px) + var(--card-x, 0px)), calc(-50% + var(--card-y, 0px)), var(--card-z, -1800px))
+      scale(var(--card-scale, 0.96));
+  }
+
+  .story-card--left {
+    --tablet-card-offset: clamp(-104px, -9vw, -72px);
+  }
+
+  .story-card--right {
+    --tablet-card-offset: clamp(72px, 9vw, 104px);
+  }
+
+  .story-card--wide {
+    width: min(720px, calc(100vw - 64px));
+  }
+
+  .story-card h2 {
+    font-size: clamp(32px, 4.2vw, 46px);
+  }
+
+  .story-card p {
+    margin-top: clamp(22px, 3vh, 30px);
+    font-size: clamp(19px, 2.2vw, 23px);
+    line-height: 1.48;
+  }
+
+  .quote-card {
+    width: calc(100vw - 64px);
+    height: min(72svh, 620px);
+    --tablet-card-offset: 0px;
+  }
+
+  .quote-card p {
+    font-size: clamp(50px, 7vw, 86px);
+  }
+
+  .schedule-card {
+    height: min(76svh, 640px);
+  }
+
+  .route-card {
+    height: min(76svh, 650px);
+    justify-content: flex-start;
+  }
+
+  .route-card .map-placeholder {
+    min-height: 0;
+    height: clamp(210px, 30svh, 300px);
+  }
+}
+
 @media (max-width: 860px) {
   .story-scroll {
     height: 2300vh;

@@ -580,7 +580,7 @@ function initScene() {
     groom.position.z = 0.16 + passEase * 0.2;
     meadow.rotation.y = 0;
     meadow.position.x = 0.02;
-    meadow.position.y = (compactMobile ? -1.72 : -1.86) - meadowLift;
+    meadow.position.y = (compactMobile ? -2.02 : -1.86) - meadowLift;
 
     camera.position.x = 0;
     camera.position.y = (mobile ? (compactMobile ? 0.38 : 0.48) : 0.7) + passEase * (compactMobile ? 0.07 : 0.12);
