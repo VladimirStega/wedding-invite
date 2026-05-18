@@ -167,12 +167,8 @@ h1 {
   margin-top: clamp(30px, 3.8vh, 48px);
   width: var(--countdown-width, min(93vw, 620px));
   padding: 12px;
-  border: 0;
-  background-color: rgba(255, 255, 255, 0.48);
-  background-image: url("./assets/frames/timer.png?v=frames-20260518");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  border: 1px solid rgba(174, 17, 27, 0.42);
+  background: rgba(255, 255, 255, 0.48);
   box-shadow: none;
   opacity: var(--countdown-opacity, 1);
   pointer-events: var(--countdown-events, none);
@@ -207,7 +203,11 @@ h1 {
 }
 
 .countdown::before {
-  content: none;
+  position: absolute;
+  inset: 5px;
+  z-index: -1;
+  border: 1px solid rgba(185, 142, 53, 0.44);
+  content: "";
 }
 
 .countdown__grid {
@@ -290,23 +290,18 @@ h1 {
   left: 50%;
   z-index: 5;
   display: flex;
-  --frame-image: none;
   --card-side-offset: clamp(250px, 26vw, 460px);
   width: clamp(360px, 28vw, 520px);
   max-width: calc(100vw - (var(--card-side-offset) * 2) - 72px);
   height: clamp(420px, 66svh, 620px);
   max-height: calc(100svh - 156px);
   overflow: hidden;
-  padding: clamp(42px, 5vw, 68px);
+  padding: clamp(28px, 3.8vw, 46px);
   flex-direction: column;
   justify-content: center;
-  border: 0;
+  border: 1px solid rgba(174, 17, 27, 0.46);
   color: var(--ink);
-  background-color: rgba(255, 255, 255, 0.76);
-  background-image: var(--frame-image);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  background: rgba(255, 255, 255, 0.76);
   box-shadow: none;
   opacity: var(--card-opacity, 0);
   text-align: center;
@@ -321,31 +316,11 @@ h1 {
 }
 
 .story-card::before {
-  content: none;
-}
-
-.frame-guest {
-  --frame-image: url("./assets/frames/card-guest.png?v=frames-20260518");
-}
-
-.frame-schedule {
-  --frame-image: url("./assets/frames/card-schedule.png?v=frames-20260518");
-}
-
-.frame-gifts {
-  --frame-image: url("./assets/frames/card-gifts.png?v=frames-20260518");
-}
-
-.frame-dress {
-  --frame-image: url("./assets/frames/card-dress.png?v=frames-20260518");
-}
-
-.frame-route {
-  --frame-image: url("./assets/frames/card-route.png?v=frames-20260518");
-}
-
-.frame-lodging {
-  --frame-image: url("./assets/frames/card-lodging.png?v=frames-20260518");
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(185, 142, 53, 0.42);
+  pointer-events: none;
+  content: "";
 }
 
 .story-card--left {
@@ -391,7 +366,6 @@ h1 {
   height: min(82svh, 720px);
   border-color: transparent;
   background: transparent;
-  background-image: none;
   backdrop-filter: none;
   text-align: center;
   transform:
