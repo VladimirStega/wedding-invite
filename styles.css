@@ -30,15 +30,15 @@ body {
 
 .site-background {
   position: fixed;
-  inset: -8vh -8vw;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image: url("./assets/bg-rus-landscape-v5.png");
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-size: cover;
-  opacity: 0.68;
-  filter: saturate(1);
+  background-size: max(1500px, 118vw) auto;
+  opacity: 0.78;
+  filter: saturate(1.08) contrast(1.04);
   transform: scale(var(--site-bg-scale, 1.04));
   transform-origin: center bottom;
   transition: transform 110ms linear;
