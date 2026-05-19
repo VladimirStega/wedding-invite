@@ -12,6 +12,11 @@ const cards = [...document.querySelectorAll(".story-card")];
 const canvas = document.querySelector("#threeScene");
 const webglNote = document.querySelector("#webglNote");
 const assetUrls = window.WEDDING_ASSETS || {};
+const openRsvpButton = document.querySelector("#openRsvp");
+const rsvpModal = document.querySelector("#rsvpModal");
+const rsvpForm = document.querySelector("#rsvpForm");
+const rsvpStatus = document.querySelector("#rsvpStatus");
+const rsvpSubmitFrame = document.querySelector('iframe[name="rsvpSubmitFrame"]');
 
 let storyProgress = 0;
 let stepPosition = 0;
@@ -37,6 +42,9 @@ let countdownDocked = false;
 let mobileSnapIndex = 0;
 const snapCooldown = 900;
 let lastSnapCompletedAt = -snapCooldown;
+let rsvpReady = false;
+let rsvpSubmitted = false;
+let rsvpFallbackTimer = 0;
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -88,6 +96,89 @@ function setCountdownDocked(nextDocked) {
   countdownPanel.classList.toggle("countdown--docked", nextDocked);
 
   targetParent.appendChild(countdownPanel);
+}
+
+function openRsvpModal() {
+  if (!rsvpModal) {
+    return;
+  }
+
+  rsvpModal.classList.add("is-open");
+  rsvpModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("rsvp-open");
+
+  window.setTimeout(() => {
+    const firstField = rsvpModal.querySelector("input:not([type='hidden']), textarea");
+    firstField?.focus();
+  }, 80);
+}
+
+function closeRsvpModal() {
+  if (!rsvpModal) {
+    return;
+  }
+
+  rsvpModal.classList.remove("is-open");
+  rsvpModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("rsvp-open");
+  openRsvpButton?.focus();
+}
+
+function finishRsvpSubmit() {
+  if (!rsvpSubmitted || !rsvpForm) {
+    return;
+  }
+
+  rsvpSubmitted = false;
+  window.clearTimeout(rsvpFallbackTimer);
+  rsvpForm.reset();
+  const submitButton = rsvpForm.querySelector("button[type='submit']");
+
+  if (submitButton) {
+    submitButton.disabled = false;
+  }
+
+  if (rsvpStatus) {
+    rsvpStatus.textContent = "Спасибо! Мы получили ваш ответ.";
+  }
+}
+
+function initRsvpForm() {
+  if (rsvpReady || !openRsvpButton || !rsvpModal || !rsvpForm) {
+    return;
+  }
+
+  rsvpReady = true;
+
+  openRsvpButton.addEventListener("click", openRsvpModal);
+
+  rsvpModal.querySelectorAll("[data-rsvp-close]").forEach((control) => {
+    control.addEventListener("click", closeRsvpModal);
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && rsvpModal.classList.contains("is-open")) {
+      closeRsvpModal();
+    }
+  });
+
+  rsvpForm.addEventListener("submit", () => {
+    rsvpSubmitted = true;
+    const submitButton = rsvpForm.querySelector("button[type='submit']");
+
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+
+    if (rsvpStatus) {
+      rsvpStatus.textContent = "Отправляем ответ...";
+    }
+
+    window.clearTimeout(rsvpFallbackTimer);
+    rsvpFallbackTimer = window.setTimeout(finishRsvpSubmit, 2400);
+  });
+
+  rsvpSubmitFrame?.addEventListener("load", finishRsvpSubmit);
 }
 
 function rangeProgress(value, start, end) {
@@ -641,6 +732,8 @@ function initScene() {
 }
 
 function startPage() {
+  initRsvpForm();
+
   try {
   initScene();
 } catch (error) {
@@ -667,6 +760,7 @@ import("https://unpkg.com/three@0.164.1/build/three.module.js")
   })
   .catch((error) => {
     webglNote.textContent = "РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ 3D-СЃС†РµРЅСѓ";
+    initRsvpForm();
     setCountdownDocked(false);
     updateCountdown();
     updateStory();

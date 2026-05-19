@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Евгений & Екатерина | Сказка о любви</title>
-    <link rel="stylesheet" href="./styles.css?v=quote-mobile-20260518" />
+    <link rel="stylesheet" href="./styles.css?v=rsvp-form-20260519" />
   </head>
   <body>
     <div class="site-background" aria-hidden="true"></div>
@@ -121,13 +121,66 @@
           </article>
 
           <div class="portal-finale" id="portalFinale">
-            <a class="confirm-button" href="mailto:example@example.com?subject=Подтверждение участия">ПОДТВЕРДИТЬ УЧАСТИЕ</a>
+            <button class="confirm-button" id="openRsvp" type="button">ПОДТВЕРДИТЬ УЧАСТИЕ</button>
           </div>
         </div>
       </section>
     </main>
 
-    <script src="./asset-urls.js?v=quote-mobile-20260518"></script>
-    <script src="./main.js?v=quote-mobile-20260518"></script>
+    <div class="rsvp-modal" id="rsvpModal" aria-hidden="true">
+      <div class="rsvp-modal__backdrop" data-rsvp-close></div>
+      <section class="rsvp-modal__panel" role="dialog" aria-modal="true" aria-labelledby="rsvpTitle">
+        <button class="rsvp-modal__close" type="button" data-rsvp-close aria-label="Закрыть">×</button>
+        <h2 id="rsvpTitle">Подтверждение</h2>
+        <p class="rsvp-modal__lead">Сообщите, сможете ли вы разделить с нами этот день.</p>
+
+        <form
+          class="rsvp-form"
+          id="rsvpForm"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSfuTVgGUjoUBPi49TEohVHvo7hSCqGSBh_HUWho50YkZ-ZD-g/formResponse"
+          method="POST"
+          target="rsvpSubmitFrame"
+        >
+          <input type="hidden" name="fvv" value="1" />
+          <input type="hidden" name="pageHistory" value="0" />
+
+          <label class="rsvp-field">
+            <span>ФИО</span>
+            <input name="entry.547318135" type="text" autocomplete="name" required />
+          </label>
+
+          <fieldset class="rsvp-field">
+            <legend>Посетите наш праздник?</legend>
+            <label><input name="entry.253144938" type="radio" value="Конечно я буду" required /> Конечно я буду</label>
+            <label><input name="entry.253144938" type="radio" value="Я не смогу" /> Я не смогу</label>
+          </fieldset>
+
+          <fieldset class="rsvp-field">
+            <legend>Вам нужна карета?</legend>
+            <label><input name="entry.295175256" type="radio" value="Да" required /> Да</label>
+            <label><input name="entry.295175256" type="radio" value="Нет" /> Нет</label>
+          </fieldset>
+
+          <fieldset class="rsvp-field">
+            <legend>Останетесь с ночевкой?</legend>
+            <label><input name="entry.1382064568" type="radio" value="Да" required /> Да</label>
+            <label><input name="entry.1382064568" type="radio" value="Нет" /> Нет</label>
+          </fieldset>
+
+          <label class="rsvp-field">
+            <span>Текст сообщения</span>
+            <textarea name="entry.45939355" rows="4"></textarea>
+          </label>
+
+          <p class="rsvp-status" id="rsvpStatus" role="status" aria-live="polite"></p>
+          <button class="confirm-button rsvp-submit" type="submit">Отправить ответ</button>
+        </form>
+
+        <iframe class="rsvp-submit-frame" name="rsvpSubmitFrame" title="Отправка подтверждения"></iframe>
+      </section>
+    </div>
+
+    <script src="./asset-urls.js?v=rsvp-form-20260519"></script>
+    <script src="./main.js?v=rsvp-form-20260519"></script>
   </body>
 </html>
